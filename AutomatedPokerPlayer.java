@@ -16,6 +16,10 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 		Random rand = new Random();
 	}
 	
+	public void changeRisk(double newRisk){
+		riskAversion = newRisk;
+	}
+	
 	public int discard(){
 		int numOfCardsDiscarded=0;
 		Random rand = new Random();
@@ -63,18 +67,24 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 			bet = 1;
 		}
 		
-		System.out.println(confidence);
+		System.out.println("Confidence in hand: " + confidence);
 		
 		return bet;
 	}
 	
 	public static void main(String[] args){
 		DeckOfCards deck = new DeckOfCards();
-		AutomatedPokerPlayer player = new AutomatedPokerPlayer(deck, "Robo", 0.7, 0.0);
-		System.out.println(player.toString());
+		AutomatedPokerPlayer player = new AutomatedPokerPlayer(deck, "Robo", 0.4, 0.0);
 		player.discard();
 		System.out.println(player.toString());
-		System.out.println("getBet result: " + player.getBet(3));
+		System.out.println("HIGH RISK TAKER");
+		System.out.println("getBet result: " + player.getBet(1));
+		player.changeRisk(0.6);
+		System.out.println("MEDIUM RISK TAKER");
+		System.out.println("getBet result: " + player.getBet(1));
+		player.changeRisk(0.8);
+		System.out.println("LOW RISK TAKER");
+		System.out.println("getBet result: " + player.getBet(1));
 	}
 
 }
