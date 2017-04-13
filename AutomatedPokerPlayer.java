@@ -44,7 +44,7 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 		if(hand.getGameValue()<1000000){
 			
 			float possibleBluff = new Random().nextFloat();
-			System.out.println(possibleBluff);
+			
 			
 			
 			if(possibleBluff<bluffLevel-0.095){
@@ -52,6 +52,10 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 			}
 		}
 		
+		//decision to bet or raise is a function of the quality of the hand + the risk-aversion of the agent
+		
+		float chanceOfPlay = (float) (hand.getGameValue()/1000000.0 * (1.5 - riskAversion*1));
+		System.out.println(chanceOfPlay);
 		
 		
 		
@@ -60,7 +64,7 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 	
 	public static void main(String[] args){
 		DeckOfCards deck = new DeckOfCards();
-		AutomatedPokerPlayer player = new AutomatedPokerPlayer(deck, "Robo", 1, (float) 0.5);
+		AutomatedPokerPlayer player = new AutomatedPokerPlayer(deck, "Robo", (float) 0.8, (float) 0.0);
 		System.out.println(player.toString());
 		player.discard();
 		System.out.println(player.toString());
