@@ -5,11 +5,11 @@ import java.util.Scanner;
 
 public class AutomatedPokerPlayer extends PokerPlayer {
 	
-	protected float riskAversion; //1.0 means will only bet with good cards, 0.0 means is likely to bet even with bad cards
-	protected float bluffLevel; //1.0 means will bluff and possibly raise, even with bad cards
+	protected double riskAversion; //1.0 means will only bet with good cards, 0.0 means is likely to bet even with bad cards
+	protected double bluffLevel; //1.0 means will bluff and possibly raise, even with bad cards
 	protected Random rand;
 
-	public AutomatedPokerPlayer(DeckOfCards d, String playerName, float risk_Aversion, float bluff_Level) {
+	public AutomatedPokerPlayer(DeckOfCards d, String playerName, double risk_Aversion, double bluff_Level) {
 		super(d, playerName);
 		riskAversion = risk_Aversion;
 		bluffLevel = bluff_Level;
@@ -45,26 +45,32 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 			
 			float possibleBluff = new Random().nextFloat();
 			
-			
-			
 			if(possibleBluff<bluffLevel-0.095){
 				return 1;
 			}
+			
+			return 0;
 		}
 		
 		//decision to bet or raise is a function of the quality of the hand + the risk-aversion of the agent
 		
-		float chanceOfPlay = (float) (hand.getGameValue()/1000000.0 * (1.5 - riskAversion*1));
-		System.out.println(chanceOfPlay);
+		double confidence = hand.getGameValue()/1000000.0 * (1.5 - riskAversion);
 		
+		if(confidence>1.0){
+			bet = 0;
+		}
+		if(confidence>1.5){
+			bet = 1;
+		}
 		
+		System.out.println(confidence);
 		
 		return bet;
 	}
 	
 	public static void main(String[] args){
 		DeckOfCards deck = new DeckOfCards();
-		AutomatedPokerPlayer player = new AutomatedPokerPlayer(deck, "Robo", (float) 0.8, (float) 0.0);
+		AutomatedPokerPlayer player = new AutomatedPokerPlayer(deck, "Robo", 0.7, 0.0);
 		System.out.println(player.toString());
 		player.discard();
 		System.out.println(player.toString());
