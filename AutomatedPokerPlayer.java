@@ -20,27 +20,6 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 		riskAversion = newRisk;
 	}
 	
-	public int discard(){
-		int numOfCardsDiscarded=0;
-		Random rand = new Random();
-		int discardProbabilities[] = new int[HandOfCards.HAND_SIZE];
-		//get discard probabilities
-		for (int j=0;j<HandOfCards.HAND_SIZE;j++){
-			discardProbabilities[j] = hand.getDiscardProbability(j);
-		}
-		//compare discard probabilities to random numbers and discard cards
-		for (int i=0;i<HandOfCards.HAND_SIZE;i++){
-			int randomNumber = rand.nextInt(100);
-			if (randomNumber<discardProbabilities[i]){
-				hand.discardAndReplace(i, deck.deal());
-				numOfCardsDiscarded++;
-			}
-		}
-		//returns the number of cards discarded
-		return numOfCardsDiscarded;
-	}
-	
-	
 	public int getBet(int currentHighBet){
 		//bet will store -1 for fold, 0 for call, 1 for raise
 		int bet = 0;
@@ -73,10 +52,10 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 			  confidence = confidence * 1.2;
 			}
 			else if (isBetween(percentageOfChips, 15, 40)) {
-				confidence = confidence * 1.0;
+				confidence = confidence * 0.95;
 			}
 			else if (isBetween(percentageOfChips, 40, 95)) {
-				confidence = confidence * 0.9;
+				confidence = confidence * 0.85;
 			}
 			//wouldn't be raising here
 			else if (percentageOfChips > 95) {
@@ -92,10 +71,10 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 			if(confidence>2.5){
 				bet = 1;
 			}
-			else if(confidence>1.0){
+			else if(confidence>1.3){
 				bet = 0;
 			}
-			else if(confidence<1.0){
+			else if(confidence<1.3){
 				bet = -1;
 			}
 		
