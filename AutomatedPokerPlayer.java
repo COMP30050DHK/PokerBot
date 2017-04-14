@@ -39,7 +39,7 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 			
 			float possibleBluff = new Random().nextFloat();
 			
-			if(possibleBluff<bluffLevel-0.2){
+			if(possibleBluff<bluffLevel/3){
 				return 1;
 			}
 		}
