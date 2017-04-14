@@ -44,47 +44,82 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 	public int getBet(int currentHighBet){
 		//bet will store -1 for fold, 0 for call, 1 for raise
 		int bet = 0;
+		int percentageOfChips = 0;
 		
-		if(hand.getGameValue()<1000000){
+		if(currentHighBet<numberOfChips){
+			if(currentHighBet>0){
+				percentageOfChips = (int) (((float)currentHighBet/numberOfChips)*100.0);	
+			}
+		}
+		else if(currentHighBet>=numberOfChips){
+			percentageOfChips = 100;
+		}
+		
+		
+		if(hand.getGameValue()<1000000 && percentageOfChips<20){
 			
 			float possibleBluff = new Random().nextFloat();
 			
-			if(possibleBluff<bluffLevel-0.095){
+			if(possibleBluff<bluffLevel-0.2){
 				return 1;
 			}
-			
-			return 0;
 		}
 		
 		//decision to bet or raise is a function of the quality of the hand + the risk-aversion of the agent
 		
-		double confidence = hand.getGameValue()/1000000.0 * (1.5 - riskAversion);
-		
-		if(confidence>1.0){
-			bet = 0;
-		}
-		if(confidence>1.5){
-			bet = 1;
-		}
-		
-		System.out.println("Confidence in hand: " + confidence);
+		double confidence = hand.getGameValue()/1000000.0 / (riskAversion);
+
+			if (isBetween(percentageOfChips, 0, 15)) {
+			  confidence = confidence * 1.2;
+			}
+			else if (isBetween(percentageOfChips, 15, 40)) {
+				confidence = confidence * 1.0;
+			}
+			else if (isBetween(percentageOfChips, 40, 95)) {
+				confidence = confidence * 0.9;
+			}
+			//wouldn't be raising here
+			else if (percentageOfChips > 95) {
+				confidence = confidence * 0.85;
+				if(confidence>1.0){
+					return 0;
+				}
+				else{
+					return -1;
+				}
+			}
+			
+			if(confidence>2.5){
+				bet = 1;
+			}
+			else if(confidence>1.0){
+				bet = 0;
+			}
+			else if(confidence<1.0){
+				bet = -1;
+			}
 		
 		return bet;
+		
+	}
+	
+	private static boolean isBetween(int x, int lower, int upper) {
+		  return lower <= x && x <= upper;
 	}
 	
 	public static void main(String[] args){
 		DeckOfCards deck = new DeckOfCards();
-		AutomatedPokerPlayer player = new AutomatedPokerPlayer(deck, "Robo", 0.4, 0.0);
+		AutomatedPokerPlayer player = new AutomatedPokerPlayer(deck, "Robo", 0.3, 0.3);
 		player.discard();
-		System.out.println(player.toString());
-		System.out.println("HIGH RISK TAKER");
-		System.out.println("getBet result: " + player.getBet(1));
+		System.out.println(player.toString() + "\n");
+		System.out.print("HIGH RISK TAKER:\t");
+		System.out.println("getBet result: " + player.getBet(0));
 		player.changeRisk(0.6);
-		System.out.println("MEDIUM RISK TAKER");
-		System.out.println("getBet result: " + player.getBet(1));
-		player.changeRisk(0.8);
-		System.out.println("LOW RISK TAKER");
-		System.out.println("getBet result: " + player.getBet(1));
+		System.out.print("MEDIUM RISK TAKER:\t");
+		System.out.println("getBet result: " + player.getBet(0));
+		player.changeRisk(0.85);
+		System.out.print("LOW RISK TAKER:\t\t");
+		System.out.println("getBet result: " + player.getBet(0));
 	}
 
 }
