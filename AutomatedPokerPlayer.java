@@ -56,7 +56,7 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 		}
 		
 		
-		if(hand.getGameValue()<1000000 && percentageOfChips<20){
+		if(hand.getGameValue()<1500000 && percentageOfChips<20){
 			
 			float possibleBluff = new Random().nextFloat();
 			
