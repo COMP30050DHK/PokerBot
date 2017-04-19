@@ -10,7 +10,7 @@ public class HandOfPoker {
 	private ArrayList<PokerPlayer> pokerPlayers = new ArrayList<PokerPlayer>();
 
 
-	public HandOfPoker(ArrayList<PokerPlayer> players) {
+	public HandOfPoker(DeckOfCards d, ArrayList<PokerPlayer> players) {
 		pokerPlayers = players;
 		System.out.println(">> New Deal:");
 	}
@@ -89,7 +89,6 @@ public class HandOfPoker {
 			}
 		}
 	}
-
 
 	public void showCards() {
 
