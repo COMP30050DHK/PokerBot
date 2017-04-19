@@ -28,7 +28,7 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 	
 	public int getBet(int currentHighBet, boolean open){
 		//bet will store -1 for fold, 0 for call, 1 for raise
-		int bet = 0;
+		int bet = -1;
 		int percentageOfChips = 0;
 		
 		if(currentHighBet<numberOfChips){
@@ -65,7 +65,7 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 			//wouldn't be raising here
 			else if (percentageOfChips > 95) {
 				confidence = confidence * 0.85;
-				if(confidence>1.0){
+				if(confidence>5.0){
 					return 0;
 				}
 				else{
@@ -73,13 +73,13 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 				}
 			}
 			
-			if(confidence>3){
+			if(confidence>5){
 				bet = 1;
 			}
 			else if(confidence>1.5 && open){
 				bet = 0;
 			}
-			else {
+			else if(confidence<1.5){
 				bet = -1;
 			}
 			

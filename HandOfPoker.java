@@ -12,7 +12,7 @@ public class HandOfPoker {
 	private ArrayList<PokerPlayer> pokerPlayers = new ArrayList<PokerPlayer>();
 	private boolean cleanRound = false;
 	private int clean = 0;
-	private int wasCalled = 0;
+	private int needToCall = 0;
 	PokerPlayer winner;
 
 
@@ -74,39 +74,47 @@ public class HandOfPoker {
 				System.out.println(pokerPlayers.get(i).getName()+" call amount = " + pokerPlayers.get(i).amountToCall);
 
 				open = true;	
-				wasCalled = pokerPlayers.get(i).amountToCall;
+				needToCall = pokerPlayers.get(i).amountToCall;
 				state = pokerPlayers.get(i).getBet(pokerPlayers.get(i).amountToCall, open);
 				
 				if(state==1){
 					
-					pot++;
+					pot+=needToCall+1;
 					
 					for (int j = 0; j < pokerPlayers.size(); j++) {
 						if(j!=i){
 							pokerPlayers.get(j).amountToCall++;
 						}
 					}
-
+					
+					pokerPlayers.get(i).amountToCall = 0;
 					System.out.println(pokerPlayers.get(i).getName() + " has raised");
 				}
 				else if(state==0){
 					
-					pot+=wasCalled;
+					pot+=needToCall;
 					
+					pokerPlayers.get(i).amountToCall = 0;
 					System.out.println(pokerPlayers.get(i).getName() + " has called");
 					clean++;
 			
 				}
 				else if(state==-1){
+					pokerPlayers.get(i).amountToCall = 0;
 					System.out.println(pokerPlayers.get(i).getName() + " has folded");
 					pokerPlayers.remove(i);
 				}
 			}
+			
+			//System.out.println(pot);
+			
 		}
 		
 		if(clean == pokerPlayers.size()){
 			cleanRound = true;
 		}
+		
+		
 		
 	}
 

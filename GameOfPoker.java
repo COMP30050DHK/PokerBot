@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameOfPoker {
+	
 	public static ArrayList<PokerPlayer> players = new ArrayList<PokerPlayer>();
-	//public static PokerPlayer[] players = new PokerPlayer[5];
 	public static String name = "";
 	public static int botNum = 0;
 	public static int playerNum = 0;
 	public static DeckOfCards d;
+	public static int openingPlayer = 0;
 	
 	public GameOfPoker(){
 		DeckOfCards d = new DeckOfCards();
@@ -54,6 +55,12 @@ public class GameOfPoker {
 			botNum--;
 		}
 	}
+	
+	public static void rotateOpeningPlayer(){
+		PokerPlayer rotate = players.remove(0);
+		players.add(rotate);
+	}
+	
 	    
 	public static void main(String[] args){
 		GameOfPoker game = new GameOfPoker();
@@ -65,7 +72,13 @@ public class GameOfPoker {
 			}
 
 			HandOfPoker pokerHand = new HandOfPoker(d, players);
+			
+			rotateOpeningPlayer();
+			
 		}
+		
+		
+		System.out.println("The winner was " + players.get(0).getName());
 	
 	}
 	
