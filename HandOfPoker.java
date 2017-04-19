@@ -74,7 +74,7 @@ public class HandOfPoker {
 				System.out.println(pokerPlayers.get(i).getName()+" call amount = " + pokerPlayers.get(i).amountToCall);
 
 				open = true;	
-				needToCall = pokerPlayers.get(i).amountToCall;
+				needToCall = pokerPlayers.get(i).amountToCall; //stores value player would need to call with
 				state = pokerPlayers.get(i).getBet(pokerPlayers.get(i).amountToCall, open);
 				
 				if(state==1){
@@ -91,13 +91,10 @@ public class HandOfPoker {
 					System.out.println(pokerPlayers.get(i).getName() + " has raised");
 				}
 				else if(state==0){
-					
 					pot+=needToCall;
-					
 					pokerPlayers.get(i).amountToCall = 0;
 					System.out.println(pokerPlayers.get(i).getName() + " has called");
 					clean++;
-			
 				}
 				else if(state==-1){
 					pokerPlayers.get(i).amountToCall = 0;
@@ -105,9 +102,6 @@ public class HandOfPoker {
 					pokerPlayers.remove(i);
 				}
 			}
-			
-			//System.out.println(pot);
-			
 		}
 		
 		if(clean == pokerPlayers.size()){
