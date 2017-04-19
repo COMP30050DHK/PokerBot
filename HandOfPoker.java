@@ -10,6 +10,8 @@ public class HandOfPoker {
 	protected int pot = 0;
 	protected boolean open = false;
 	private ArrayList<PokerPlayer> pokerPlayers = new ArrayList<PokerPlayer>();
+	private boolean cleanRound = false;
+	private int clean = 0;
 
 
 	public HandOfPoker(DeckOfCards d, ArrayList<PokerPlayer> players) {
@@ -18,6 +20,8 @@ public class HandOfPoker {
 		
 		//dealing all players a new hand
 		for (int i = 0; i < pokerPlayers.size(); i++) {
+			//won't owe anything at start of new round
+			pokerPlayers.get(i).amountToCall=0;
 			pokerPlayers.get(i).newHand();
 			if(pokerPlayers.get(i).isHuman()){
 				System.out.println(pokerPlayers.get(i).hand.toString());
@@ -33,7 +37,11 @@ public class HandOfPoker {
 		}
 	
 		//ready to start the betting cycle
-		bettingRound();
+		cleanRound = false;
+		
+		while(cleanRound!=true){
+			bettingRound();
+		}
 			
 	}
 
@@ -45,18 +53,21 @@ public class HandOfPoker {
 
 	public void bettingRound() {
 		
+		clean = 0;
+		
 		for (int i = 0; i < pokerPlayers.size(); i++) {
+			
 			if(pokerPlayers.get(i).canOpenBetting() || open){
 				
-				open = true;
-				
+				System.out.println(pokerPlayers.get(i).getName()+" call amount = " + pokerPlayers.get(i).amountToCall);
+
+				open = true;	
 				state = pokerPlayers.get(i).getBet(pokerPlayers.get(i).amountToCall);
 				
 				if(state==1){
-					
 					for (int j = 0; j < pokerPlayers.size(); j++) {
-						if(i!=j){
-							pokerPlayers.get(i).amountToCall++;
+						if(j!=i){
+							pokerPlayers.get(j).amountToCall++;
 						}
 					}
 
@@ -65,6 +76,7 @@ public class HandOfPoker {
 				else if(state==0){
 					lastBet = 1;
 					System.out.println(pokerPlayers.get(i).getName() + " has called");
+					clean++;
 				}
 				else if(state==-1){
 					System.out.println(pokerPlayers.get(i).getName() + " has folded");
@@ -72,7 +84,11 @@ public class HandOfPoker {
 				}
 			}
 		}
-
+		
+		if(clean == pokerPlayers.size()){
+			cleanRound = true;
+		}
+		
 	}
 
 	public int discard() {
