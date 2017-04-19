@@ -18,6 +18,14 @@ public class HandOfPoker {
 		
 		for (int i = 0; i < pokerPlayers.size(); i++) {
 			pokerPlayers.get(i).newHand();
+			if(pokerPlayers.get(i).isHuman()){
+				System.out.println(pokerPlayers.get(i).hand.toString());
+			}
+		}
+		
+
+		for (int i = 0; i < pokerPlayers.size(); i++) {
+			pokerPlayers.get(i).discard();
 		}
 	
 		bettingRound();

@@ -4,12 +4,17 @@ import java.util.Scanner;
 
 public class HumanPokerPlayer extends PokerPlayer{
 	
+	
 	/* The scanners are left open because closing them causes System.in to close
 	 *  and this cannot be reopened without causing an exception
 	 */
 	
 	public HumanPokerPlayer(DeckOfCards d, String playerName) {
 		super(d, playerName);
+	}
+	
+	public boolean isHuman(){
+		return true;
 	}
 
 	/* Asks the user which cards they would like to discard. If the user enters

@@ -31,6 +31,10 @@ public class PokerPlayer {
 		hand = new HandOfCards(deck);
 	}
 	
+	public boolean isHuman(){
+		return false;
+	}
+	
 	//gets the discard probabilities of the cards in the hand, generates 5 random
 	// numbers from zero to 99 and discards cards whose discard probabilities are
 	// lower than the corresponding discard probabilities

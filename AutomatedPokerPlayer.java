@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 public class AutomatedPokerPlayer extends PokerPlayer {
 	
+	static public final boolean HUMAN = false;
+	
 	protected double riskAversion; //1.0 means will only bet with good cards, 0.0 means is likely to bet even with bad cards
 	protected double bluffLevel; //1.0 means will bluff and possibly raise, even with bad cards
 	protected Random rand;
@@ -14,6 +16,10 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 		riskAversion = risk_Aversion;
 		bluffLevel = bluff_Level;
 		Random rand = new Random();
+	}
+	
+	public boolean isHuman(){
+		return false;
 	}
 	
 	public void changeRisk(double newRisk){
