@@ -7,6 +7,7 @@ public class HandOfPoker {
 
 	protected int lastBet = 0;
 	protected int pot = 0;
+	protected boolean open = false;
 	private ArrayList<PokerPlayer> pokerPlayers = new ArrayList<PokerPlayer>();
 
 
@@ -14,7 +15,10 @@ public class HandOfPoker {
 		pokerPlayers = players;
 		System.out.println(">> New Deal:");
 		
-		PokerPlayer a = players.get(0);
+		for (int i = 0; i < pokerPlayers.size(); i++) {
+			pokerPlayers.get(i).newHand();
+		}
+	
 		bettingRound();
 			
 	}
@@ -27,7 +31,15 @@ public class HandOfPoker {
 
 	public void bettingRound() {
 		
+
+		
 		for (int i = 0; i < pokerPlayers.size(); i++) {
+			if(pokerPlayers.get(i).canOpenBetting() || open){
+				open = true;
+				
+				
+				
+			}
 			pokerPlayers.get(i).getBet(0);
 		}
 

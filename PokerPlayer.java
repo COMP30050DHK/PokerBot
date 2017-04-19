@@ -26,6 +26,11 @@ public class PokerPlayer {
 		deck = d;
 	}
 	
+	public void newHand(){
+		deck.reset();
+		hand = new HandOfCards(deck);
+	}
+	
 	//gets the discard probabilities of the cards in the hand, generates 5 random
 	// numbers from zero to 99 and discards cards whose discard probabilities are
 	// lower than the corresponding discard probabilities

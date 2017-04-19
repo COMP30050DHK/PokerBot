@@ -3,6 +3,8 @@ package poker;
 import java.util.Scanner;
 
 public class HumanPokerPlayer extends PokerPlayer{
+	
+	Scanner scanner;
 	/* The scanners are left open because closing them causes System.in to close
 	 *  and this cannot be reopened without causing an exception
 	 */
@@ -44,13 +46,16 @@ public class HumanPokerPlayer extends PokerPlayer{
 	public int getBet(int currentHighBet){
 		int bet = 0;
 		boolean validInput = false;
-		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println(this.hand.toString());
+		
 		while (!validInput){
 			if (currentHighBet==0){
 				System.out.print(">> Would you like to raise or fold: ");
 			} else {
 				System.out.print(">> Would you like to raise, see or fold: ");
 			}
+			
 			String input = scanner.next();
 			
 			if (input.equalsIgnoreCase("raise")){
