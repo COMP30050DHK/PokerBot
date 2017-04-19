@@ -54,13 +54,13 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 		double confidence = hand.getGameValue()/1000000.0 / (riskAversion);
 
 			if (isBetween(percentageOfChips, 0, 15)) {
-			  confidence = confidence * 1.2;
+			  confidence = confidence;
 			}
 			else if (isBetween(percentageOfChips, 15, 40)) {
-				confidence = confidence * 0.95;
+				confidence = confidence * 0.80;
 			}
 			else if (isBetween(percentageOfChips, 40, 95)) {
-				confidence = confidence * 0.85;
+				confidence = confidence * 0.65;
 			}
 			//wouldn't be raising here
 			else if (percentageOfChips > 95) {
@@ -74,7 +74,7 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 			}
 			
 			if(confidence>5){
-				bet = 1;
+				bet = 0;
 			}
 			else if(confidence>1.5 && open){
 				bet = 0;
