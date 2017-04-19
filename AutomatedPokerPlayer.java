@@ -82,6 +82,17 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 			else if(confidence<1.3){
 				bet = -1;
 			}
+			
+			
+			if(bet==0){
+				setNumberOfChips(getNumberOfChips()-currentHighBet);
+				amountToCall = 0;
+			}
+			
+			if(bet==1){
+				setNumberOfChips(getNumberOfChips()-currentHighBet-1);
+				amountToCall = 0;
+			}
 		
 		return bet;
 		

@@ -16,6 +16,7 @@ public class PokerPlayer {
 	protected DeckOfCards deck;
 	protected String name;
 	protected int numberOfChips;
+	public int amountToCall=0;
 	protected static final int STARTING_NUMBER_OF_CHIPS = 10;
 	
 	//public constructor takes a deck of cards and creates a new hand of cards

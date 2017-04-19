@@ -16,6 +16,7 @@ public class HandOfPoker {
 		pokerPlayers = players;
 		System.out.println(">> New Deal:");
 		
+		//dealing all players a new hand
 		for (int i = 0; i < pokerPlayers.size(); i++) {
 			pokerPlayers.get(i).newHand();
 			if(pokerPlayers.get(i).isHuman()){
@@ -23,6 +24,7 @@ public class HandOfPoker {
 			}
 		}
 	
+		//asking all players if they want to discard
 		for (int i = 0; i < pokerPlayers.size(); i++) {
 			pokerPlayers.get(i).discard();
 			if(pokerPlayers.get(i).isHuman()){
@@ -30,6 +32,7 @@ public class HandOfPoker {
 			}
 		}
 	
+		//ready to start the betting cycle
 		bettingRound();
 			
 	}
@@ -47,10 +50,16 @@ public class HandOfPoker {
 				
 				open = true;
 				
-				state = pokerPlayers.get(i).getBet(lastBet);
+				state = pokerPlayers.get(i).getBet(pokerPlayers.get(i).amountToCall);
 				
 				if(state==1){
-					lastBet = 1;
+					
+					for (int j = 0; j < pokerPlayers.size(); j++) {
+						if(i!=j){
+							pokerPlayers.get(i).amountToCall++;
+						}
+					}
+
 					System.out.println(pokerPlayers.get(i).getName() + " has raised");
 				}
 				else if(state==0){
