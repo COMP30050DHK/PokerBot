@@ -9,9 +9,6 @@ public class GameOfPoker {
 	public static String name = "";
 	public static int botNum = 0;
 	public static int playerNum = 0;
-	public static DeckOfCards d;
-	
-	
 	public GameOfPoker(){
 		DeckOfCards d = new DeckOfCards();
 		Scanner scanner = new Scanner(System.in);
@@ -62,7 +59,7 @@ public class GameOfPoker {
 			removePlayerCheck(i);
 		}
 		if(players.size()>1){
-			HandOfPoker pokerHand = new HandOfPoker(d, players);
+			HandOfPoker pokerHand = new HandOfPoker(players);
 		}
 	
 	}
