@@ -92,7 +92,7 @@ public class HandOfPoker {
 			}
 		}
 		
-		if(clean == pokerPlayers.size()-1){
+		if(clean == pokerPlayers.size()){
 			cleanRound = true;
 		}
 		
