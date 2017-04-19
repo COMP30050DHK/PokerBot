@@ -76,10 +76,10 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 			if(confidence>3){
 				bet = 1;
 			}
-			else if(confidence>1.5){
+			else if(confidence>1.5 && open){
 				bet = 0;
 			}
-			else if(confidence<1.3){
+			else {
 				bet = -1;
 			}
 			

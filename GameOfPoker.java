@@ -48,7 +48,7 @@ public class GameOfPoker {
 	}
 	    
 	public static void removePlayerCheck(int i){
-		if(players.get(i).numberOfChips==0){
+		if(players.get(i).numberOfChips<=0){
 			System.out.println("Player "+players.get(i).name+" has no chips remaining and has been eliminated from the game.");
 			players.remove(i);
 			botNum--;
@@ -57,11 +57,13 @@ public class GameOfPoker {
 	    
 	public static void main(String[] args){
 		GameOfPoker game = new GameOfPoker();
-		for(int i=0; i<=botNum; i++){
-			removePlayerCheck(i);
-		}
 		
 		while(players.size()>1){
+			
+			for(int i=0; i<players.size(); i++){
+				removePlayerCheck(i);
+			}
+
 			HandOfPoker pokerHand = new HandOfPoker(d, players);
 		}
 	

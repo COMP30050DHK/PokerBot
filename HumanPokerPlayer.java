@@ -51,7 +51,7 @@ public class HumanPokerPlayer extends PokerPlayer{
 		int bet = 0;
 		boolean validInput = false;
 		
-		System.out.println(this.hand.toString());
+		System.out.println("\n" + this.hand.toString() + "\n");
 		
 		while (!validInput){
 			
