@@ -1,4 +1,4 @@
-package Poker;
+package poker;
 
 import java.util.Scanner;
 
@@ -21,29 +21,48 @@ public class GameOfPoker {
 	    	}
 	    }
 	    
+	    
+	    //Creating players here
+	    
 		PokerPlayer human = new HumanPokerPlayer(d, name);
 		players[playerNum] = human;
 		playerNum++;
 		
-		PokerPlayer Tom = new AutomatedPokerPlayer(d, "Tom", 0, 0);
+		PokerPlayer Tom = new AutomatedPokerPlayer(d, "Tom", Math.random(), Math.random());
 		players[playerNum] = Tom;
 		playerNum++;
 		
 		if(botNum>1){
-			PokerPlayer Dick = new AutomatedPokerPlayer(d, "Dick", 0, 0);
+			PokerPlayer Dick = new AutomatedPokerPlayer(d, "Dick", Math.random(), Math.random());
 			players[playerNum] = Dick;
 			playerNum++;
 		}
 		if(botNum>2){
-			PokerPlayer Harry = new AutomatedPokerPlayer(d, "Harry", 0, 0);
+			PokerPlayer Harry = new AutomatedPokerPlayer(d, "Harry", Math.random(), Math.random());
 			players[playerNum] = Harry;
 			playerNum++;
 		}
 		if(botNum>3){
-			PokerPlayer William = new AutomatedPokerPlayer(d, "William", 0, 0);
+			PokerPlayer William = new AutomatedPokerPlayer(d, "William", Math.random(), Math.random());
 			players[playerNum] = William;
 			playerNum++;
 		}
+		
+		
+		//Here, HandOfPokers will be created
+		
+		while(/*AMOUNT OF PLAYERS LEFT > 1*/){
+			
+			//NEW HAND OF POKER
+			
+		}
+		
+		
+		
+		
+		
+		
+		
 	    	
 	}
 	    
