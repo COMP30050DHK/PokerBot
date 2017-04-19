@@ -45,7 +45,6 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 		}
 		
 		//decision to bet or raise is a function of the quality of the hand + the risk-aversion of the agent
-		
 		double confidence = hand.getGameValue()/1000000.0 / (riskAversion);
 
 			if (isBetween(percentageOfChips, 0, 15)) {
