@@ -91,7 +91,7 @@ public class HandOfPoker {
 				}
 				else if(state==0){
 					
-					pot=pot+wasCalled;
+					pot+=wasCalled;
 					
 					System.out.println(pokerPlayers.get(i).getName() + " has called");
 					clean++;
