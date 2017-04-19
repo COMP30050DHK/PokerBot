@@ -65,6 +65,7 @@ public class HumanPokerPlayer extends PokerPlayer{
 			
 			if (input.equalsIgnoreCase("raise")){
 				bet = 1;
+				
 				validInput = true;
 			}
 			if (input.equalsIgnoreCase("see") && currentHighBet>0){

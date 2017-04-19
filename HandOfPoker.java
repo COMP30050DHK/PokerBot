@@ -22,10 +22,12 @@ public class HandOfPoker {
 				System.out.println(pokerPlayers.get(i).hand.toString());
 			}
 		}
-		
-
+	
 		for (int i = 0; i < pokerPlayers.size(); i++) {
 			pokerPlayers.get(i).discard();
+			if(pokerPlayers.get(i).isHuman()){
+				System.out.println(pokerPlayers.get(i).hand.toString());
+			}
 		}
 	
 		bettingRound();
@@ -40,10 +42,9 @@ public class HandOfPoker {
 
 	public void bettingRound() {
 		
-
-		
 		for (int i = 0; i < pokerPlayers.size(); i++) {
 			if(pokerPlayers.get(i).canOpenBetting() || open){
+				
 				open = true;
 				
 				state = pokerPlayers.get(i).getBet(lastBet);
@@ -57,8 +58,8 @@ public class HandOfPoker {
 					System.out.println(pokerPlayers.get(i).getName() + " has called");
 				}
 				else if(state==-1){
-					lastBet = 1;
 					System.out.println(pokerPlayers.get(i).getName() + " has folded");
+					pokerPlayers.remove(i);
 				}
 			}
 		}

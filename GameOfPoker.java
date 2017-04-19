@@ -60,7 +60,8 @@ public class GameOfPoker {
 		for(int i=0; i<=botNum; i++){
 			removePlayerCheck(i);
 		}
-		if(players.size()>1){
+		
+		while(players.size()>1){
 			HandOfPoker pokerHand = new HandOfPoker(d, players);
 		}
 	
