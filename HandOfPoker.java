@@ -65,6 +65,7 @@ public class HandOfPoker {
 				state = pokerPlayers.get(i).getBet(pokerPlayers.get(i).amountToCall);
 				
 				if(state==1){
+					
 					for (int j = 0; j < pokerPlayers.size(); j++) {
 						if(j!=i){
 							pokerPlayers.get(j).amountToCall++;

@@ -59,23 +59,25 @@ public class HumanPokerPlayer extends PokerPlayer{
 			} else {
 				System.out.print(">> Would you like to raise, see or fold: ");
 			}
+			
 			Scanner scanner = new Scanner(System.in);
 			String input = scanner.next();
-			input = scanner.next();
+
 			
 			if (input.equalsIgnoreCase("raise")){
 				bet = 1;
 				setNumberOfChips(getNumberOfChips()-currentHighBet-1);
 				amountToCall = 0;
+				System.out.println("aaa");
 				validInput = true;
 			}
-			if (input.equalsIgnoreCase("see") && currentHighBet>0){
+			else if (input.equalsIgnoreCase("see") && currentHighBet>0){
 				bet = 0;
 				setNumberOfChips(getNumberOfChips()-currentHighBet);
 				amountToCall = 0;
 				validInput = true;
 			}
-			if (input.equalsIgnoreCase("fold")){
+			else if (input.equalsIgnoreCase("fold")){
 				bet = -1;
 				validInput = true;
 			}
@@ -83,6 +85,7 @@ public class HumanPokerPlayer extends PokerPlayer{
 				System.out.println(">> Invalid input!");
 			}
 		}
+		System.out.println("bbb");
 		return bet;
 	}
 	
