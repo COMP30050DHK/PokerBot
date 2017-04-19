@@ -13,6 +13,10 @@ public class HandOfPoker {
 	public HandOfPoker(DeckOfCards d, ArrayList<PokerPlayer> players) {
 		pokerPlayers = players;
 		System.out.println(">> New Deal:");
+		
+		PokerPlayer a = players.get(0);
+		bettingRound();
+			
 	}
 
 	public void printPlayerChips() {
@@ -22,16 +26,10 @@ public class HandOfPoker {
 	}
 
 	public void bettingRound() {
-		HumanPokerPlayer human = (HumanPokerPlayer)pokerPlayers.get(0);
-
-		// Human player:
-
-		lastBet = human.getBet(0);
-		pot += lastBet;
-		System.out.print(">> Size of Pot is currently " + pot);
-
-		// Bot player: 
-
+		
+		for (int i = 0; i < pokerPlayers.size(); i++) {
+			pokerPlayers.get(i).getBet(0);
+		}
 
 	}
 

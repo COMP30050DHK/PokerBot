@@ -117,4 +117,10 @@ public class PokerPlayer {
 		System.out.println("Percentage of Hands improved: "+(100*numHandsImproved/sampleSize));
 		System.out.println("Number of hands with errors: "+errors);
 	}
+	
+
+	public int getBet(int currentHighBet){
+		//not needed here but needed in classes that inherit from this
+		return 0;	
+	}
 }
