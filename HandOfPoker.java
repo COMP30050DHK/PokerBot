@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class HandOfPoker {
 
 	protected int lastBet = 0;
+	int state = 0;
 	protected int pot = 0;
 	protected boolean open = false;
 	private ArrayList<PokerPlayer> pokerPlayers = new ArrayList<PokerPlayer>();
@@ -37,10 +38,21 @@ public class HandOfPoker {
 			if(pokerPlayers.get(i).canOpenBetting() || open){
 				open = true;
 				
+				state = pokerPlayers.get(i).getBet(lastBet);
 				
-				
+				if(state==1){
+					lastBet = 1;
+					System.out.println(pokerPlayers.get(i).getName() + " has raised");
+				}
+				else if(state==0){
+					lastBet = 1;
+					System.out.println(pokerPlayers.get(i).getName() + " has called");
+				}
+				else if(state==-1){
+					lastBet = 1;
+					System.out.println(pokerPlayers.get(i).getName() + " has folded");
+				}
 			}
-			pokerPlayers.get(i).getBet(0);
 		}
 
 	}

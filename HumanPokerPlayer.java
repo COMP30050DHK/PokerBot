@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class HumanPokerPlayer extends PokerPlayer{
 	
-	Scanner scanner;
 	/* The scanners are left open because closing them causes System.in to close
 	 *  and this cannot be reopened without causing an exception
 	 */
@@ -55,8 +54,9 @@ public class HumanPokerPlayer extends PokerPlayer{
 			} else {
 				System.out.print(">> Would you like to raise, see or fold: ");
 			}
-			
+			Scanner scanner = new Scanner(System.in);
 			String input = scanner.next();
+			input = scanner.next();
 			
 			if (input.equalsIgnoreCase("raise")){
 				bet = 1;
