@@ -4,13 +4,31 @@ import java.util.Scanner;
 
 public class GameOfPoker {
 	
-	public static PokerPlayer[] players = new PokerPlayer[4];
-	int playerNum = 0;
-	public GameOfPoker(String name, int botNum, DeckOfCards d){
-		PokerPlayer human = new PokerPlayer(d, name);
+	public static PokerPlayer[] players = new PokerPlayer[5];
+	public static String name = "";
+	public static int botNum = 0;
+	public static int playerNum = 0;
+	public GameOfPoker(){
+		DeckOfCards d = new DeckOfCards();
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Welcome to the Automated Poker Machine!\nWhat is your name?");
+	    name = scanner.next();
+    	System.out.println("Welcome, "+name+". How many bots would you like to play against (1-4)?");
+	    while(botNum<1||botNum>4){
+	    	botNum = scanner.nextInt();
+	    	if(botNum<1||botNum>4){
+	    		System.out.println("Invalid number of bots. How many bots would you like to play against (Integer 1-4)?");
+	    	}
+	    }
+	    
+		PokerPlayer human = new HumanPokerPlayer(d, name);
 		players[playerNum] = human;
 		playerNum++;
+		
 		PokerPlayer Tom = new AutomatedPokerPlayer(d, "Tom", 0, 0);
+		players[playerNum] = Tom;
+		playerNum++;
+		
 		if(botNum>1){
 			PokerPlayer Dick = new AutomatedPokerPlayer(d, "Dick", 0, 0);
 			players[playerNum] = Dick;
@@ -31,20 +49,10 @@ public class GameOfPoker {
 	    
 	    
 	public static void main(String[] args){
-		String name = "";
-		int botNum = 0;
-		DeckOfCards d = new DeckOfCards();
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("Welcome to the Automated Poker Machine!\nWhat is your name?");
-	    name = scanner.next();
-    	System.out.println("Welcome, "+name+". How many bots would you like to play against (1-4)?");
-	    while(botNum<1||botNum>4){
-	    	botNum = scanner.nextInt();
-	    	if(botNum<1||botNum>4){
-	    		System.out.println("Invalid number of bots. How many bots would you like to play against (1-4)?");
-	    	}
-	    }
-		GameOfPoker game = new GameOfPoker(name, botNum, d);
+		GameOfPoker game = new GameOfPoker();
+		for(int i=0; i<=botNum; i++){
+			System.out.println("Player "+i+" is: "+players[i].name);
+		}
 	}
 	
 	
