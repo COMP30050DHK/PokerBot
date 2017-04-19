@@ -40,7 +40,6 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 			percentageOfChips = 100;
 		}
 		
-		
 		if(hand.getGameValue()<1500000 && percentageOfChips<20){
 			
 			float possibleBluff = new Random().nextFloat();
@@ -50,37 +49,37 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 			}
 		}
 		
+		
 		//decision to bet or raise is a function of the quality of the hand + the risk-aversion of the agent
-		double confidence = hand.getGameValue()/1000000.0 / (riskAversion);
+		double confidence = hand.getGameValue()/1000000.0 / (riskAversion*10);
 
 			if (isBetween(percentageOfChips, 0, 15)) {
-			  confidence = confidence;
+			  confidence = confidence * 1;
 			}
 			else if (isBetween(percentageOfChips, 15, 40)) {
-				confidence = confidence * 0.80;
+				confidence = confidence * 0.8;
 			}
-			else if (isBetween(percentageOfChips, 40, 95)) {
-				confidence = confidence * 0.65;
-			}
-			//wouldn't be raising here
-			else if (percentageOfChips > 95) {
-				confidence = confidence * 0.85;
-				if(confidence>5.0){
-					return 0;
-				}
-				else{
-					return -1;
-				}
+			else if (isBetween(percentageOfChips, 40, 70)) {
+				confidence = confidence * 0.7;
 			}
 			
-			if(confidence>5){
+			if(confidence>0.25){
+				bet = 1;
+			}
+			else if(confidence>0.15 && open){
 				bet = 0;
 			}
-			else if(confidence>1.5 && open){
-				bet = 0;
-			}
-			else if(confidence<1.5){
+			else if(confidence<0.15){
 				bet = -1;
+			}
+			
+			if (percentageOfChips > 70) {
+				if(confidence>0.15){
+					bet = 0;
+				}
+				else{
+					bet = -1;
+				}
 			}
 			
 			
@@ -108,13 +107,13 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 		player.discard();
 		System.out.println(player.toString() + "\n");
 		System.out.print("HIGH RISK TAKER:\t");
-		System.out.println("getBet result: " + player.getBet(7,true));
+		System.out.println("getBet result: " + player.getBet(3,true));
 		player.changeRisk(0.6);
 		System.out.print("MEDIUM RISK TAKER:\t");
-		System.out.println("getBet result: " + player.getBet(7,true));
+		System.out.println("getBet result: " + player.getBet(3,true));
 		player.changeRisk(0.85);
 		System.out.print("LOW RISK TAKER:\t\t");
-		System.out.println("getBet result: " + player.getBet(7,true));
+		System.out.println("getBet result: " + player.getBet(3,true));
 	}
 
 }
