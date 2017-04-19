@@ -26,7 +26,7 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 		riskAversion = newRisk;
 	}
 	
-	public int getBet(int currentHighBet){
+	public int getBet(int currentHighBet, boolean open){
 		//bet will store -1 for fold, 0 for call, 1 for raise
 		int bet = 0;
 		int percentageOfChips = 0;
@@ -108,13 +108,13 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 		player.discard();
 		System.out.println(player.toString() + "\n");
 		System.out.print("HIGH RISK TAKER:\t");
-		System.out.println("getBet result: " + player.getBet(0));
+		System.out.println("getBet result: " + player.getBet(0,true));
 		player.changeRisk(0.6);
 		System.out.print("MEDIUM RISK TAKER:\t");
-		System.out.println("getBet result: " + player.getBet(0));
+		System.out.println("getBet result: " + player.getBet(0,true));
 		player.changeRisk(0.85);
 		System.out.print("LOW RISK TAKER:\t\t");
-		System.out.println("getBet result: " + player.getBet(0));
+		System.out.println("getBet result: " + player.getBet(0,true));
 	}
 
 }

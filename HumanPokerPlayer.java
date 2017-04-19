@@ -47,14 +47,15 @@ public class HumanPokerPlayer extends PokerPlayer{
 	 *  If currentHighBet is 0, the betting has not been opened yet, and
 	 *  players can only raise or fold.
 	 */
-	public int getBet(int currentHighBet){
+	public int getBet(int currentHighBet, boolean open){
 		int bet = 0;
 		boolean validInput = false;
 		
 		System.out.println(this.hand.toString());
 		
 		while (!validInput){
-			if (currentHighBet==0){
+			if (!open){
+				System.out.println("You have: " + numberOfChips + " chips");
 				System.out.print(">> Would you like to raise or fold: ");
 			} else {
 				System.out.print(">> Would you like to raise, see or fold: ");
@@ -68,7 +69,6 @@ public class HumanPokerPlayer extends PokerPlayer{
 				bet = 1;
 				setNumberOfChips(getNumberOfChips()-currentHighBet-1);
 				amountToCall = 0;
-				System.out.println("aaa");
 				validInput = true;
 			}
 			else if (input.equalsIgnoreCase("see") && currentHighBet>0){
@@ -85,16 +85,17 @@ public class HumanPokerPlayer extends PokerPlayer{
 				System.out.println(">> Invalid input!");
 			}
 		}
-		System.out.println("bbb");
+
 		return bet;
 	}
 	
 	public static void main(String[] args){
+		
 		DeckOfCards deck = new DeckOfCards();
 		HumanPokerPlayer player = new HumanPokerPlayer(deck, "Tom");
 		System.out.println(player.toString());
 		player.discard();
 		System.out.println(player.toString());
-		System.out.println("getBet result: " + player.getBet(3));
+		System.out.println("getBet result: " + player.getBet(3,true));
 	}
 }

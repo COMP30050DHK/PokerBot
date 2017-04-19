@@ -129,7 +129,7 @@ public class PokerPlayer {
 	}
 	
 
-	public int getBet(int currentHighBet){
+	public int getBet(int currentHighBet, boolean open){
 		//not needed here but needed in classes that inherit from this
 		return 0;	
 	}

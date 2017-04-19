@@ -68,7 +68,7 @@ public class HandOfPoker {
 				System.out.println(pokerPlayers.get(i).getName()+" call amount = " + pokerPlayers.get(i).amountToCall);
 
 				open = true;	
-				state = pokerPlayers.get(i).getBet(pokerPlayers.get(i).amountToCall);
+				state = pokerPlayers.get(i).getBet(pokerPlayers.get(i).amountToCall, open);
 				
 				if(state==1){
 					
@@ -119,38 +119,6 @@ public class HandOfPoker {
 			}
 		}
 		return cardsDiscarded;
-	}
-
-	public void humanFold() {
-
-		System.out.print(">> Would you like to fold? (y/n)");
-		Scanner scanner = new Scanner(System.in);
-		String input = scanner.next();
-
-		do {
-			if (input.equals("Y") || input.equals("y")) {
-				System.out.println("You have folded!\n");
-				pokerPlayers.remove(0);
-			}
-			else if (input.equals("N") || input.equals("n")) {
-				bettingRound();
-			}
-			else {
-				System.out.println("Error in input, try again");
-			}
-		} while (true);
-	}
-
-	public void botFold(int lastBet) {
-
-		for (int i = 1; i < pokerPlayers.size(); i++) {
-			AutomatedPokerPlayer bot = (AutomatedPokerPlayer)pokerPlayers.get(i);
-			// If bot.fold() returns true remove from hand
-			if (bot.numberOfChips <= lastBet) {
-				System.out.println("> " + bot.name + " has folded!");
-				pokerPlayers.remove(i);
-			}
-		}
 	}
 
 	public void showCards() {
