@@ -73,7 +73,7 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 				}
 			}
 			
-			if(confidence>50){
+			if(confidence>3){
 				bet = 1;
 			}
 			else if(confidence>1.5){
@@ -108,13 +108,13 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 		player.discard();
 		System.out.println(player.toString() + "\n");
 		System.out.print("HIGH RISK TAKER:\t");
-		System.out.println("getBet result: " + player.getBet(0,true));
+		System.out.println("getBet result: " + player.getBet(7,true));
 		player.changeRisk(0.6);
 		System.out.print("MEDIUM RISK TAKER:\t");
-		System.out.println("getBet result: " + player.getBet(0,true));
+		System.out.println("getBet result: " + player.getBet(7,true));
 		player.changeRisk(0.85);
 		System.out.print("LOW RISK TAKER:\t\t");
-		System.out.println("getBet result: " + player.getBet(0,true));
+		System.out.println("getBet result: " + player.getBet(7,true));
 	}
 
 }
