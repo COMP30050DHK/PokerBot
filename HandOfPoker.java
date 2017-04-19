@@ -42,6 +42,12 @@ public class HandOfPoker {
 		while(cleanRound!=true){
 			bettingRound();
 		}
+		
+		showCards();
+		
+		System.out.println("\n" + pokerPlayers.get(decideWinner()).name + " won this round\n");
+		
+		
 			
 	}
 
@@ -86,7 +92,7 @@ public class HandOfPoker {
 			}
 		}
 		
-		if(clean == pokerPlayers.size()){
+		if(clean == pokerPlayers.size()-1){
 			cleanRound = true;
 		}
 		
@@ -148,10 +154,28 @@ public class HandOfPoker {
 	}
 
 	public void showCards() {
-
+		
+		System.out.println("\nEND OF ROUND\n");
+		
+		for (int i = 0; i < pokerPlayers.size(); i++) {
+			System.out.println(pokerPlayers.get(i).name + ": " + pokerPlayers.get(i).hand.toString());
+		}
 	}
 
-	public void decideWinner() {
-
+	public int decideWinner() {
+		
+		int max = 0;
+		int winner=0;
+		
+		for (int i = 0; i < pokerPlayers.size(); i++) {
+			if(pokerPlayers.get(i).hand.getGameValue()>max){
+				max = pokerPlayers.get(i).hand.getGameValue();
+				winner = i;
+			}
+		}
+		
+		return winner;
+		
+			
 	}
 }
