@@ -45,6 +45,26 @@ public class GameOfPoker {
 			players.add(William);
 		}	
 	}
+	
+	public static void playGame(){
+		
+		while(players.size()>1){
+			for(int i=players.size()-1; i>=0; i--){
+				removePlayerCheck(i);
+			}
+
+			HandOfPoker pokerHand = new HandOfPoker(d, players);
+			rotateOpeningPlayer();
+			
+		}
+		
+		
+		System.out.println(players.size());
+		
+		
+		System.out.println("The winner was " + players.get(0).getName());
+	
+	}
 	    
 	public static void removePlayerCheck(int i){
 		if(players.get(i).numberOfChips<=0){
@@ -61,34 +81,10 @@ public class GameOfPoker {
 	
 	    
 	public static void main(String[] args){
+		
 		GameOfPoker game = new GameOfPoker();
-		
-		while(players.size()>1){
-			
-			
-			
-			
-			for(int i=0; i<players.size(); i++){
-				removePlayerCheck(i);
-			}
-			
-
-			
-			
-
-			HandOfPoker pokerHand = new HandOfPoker(d, players);
-			
-			rotateOpeningPlayer();
-			
-		}
-		
-		
-		System.out.println(players.size());
-		
-		
-		System.out.println("The winner was " + players.get(0).getName());
+		game.playGame();
+	
 	
 	}
-	
-	
 }
