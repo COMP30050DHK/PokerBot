@@ -21,8 +21,8 @@ public class HandOfPoker {
 
 	public HandOfPoker(DeckOfCards d, ArrayList<PokerPlayer> players) {
 		
-		pokerPlayers = players;
-		playersIn = pokerPlayers;
+		pokerPlayers.addAll(players);
+		playersIn.addAll(players);
 		
 		printPlayerChips();
 		
@@ -50,7 +50,9 @@ public class HandOfPoker {
 		
 		System.out.println("\n" + winner.name + " won " + pot + " chips");
 		
-		playersIn.addAll(foldedPlayers);
+		playersIn.clear();
+		
+		playersIn.addAll(pokerPlayers);
 		
 		
 		
