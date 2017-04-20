@@ -56,7 +56,7 @@ public class HandOfPoker {
 
 	public void printPlayerChips() {
 		
-		System.out.println("\n>> EVERYONE'S CHIPS\n");
+		System.out.println("\n>> CHIP LISTINGS\n");
 		
 		for (int i = 0; i<playersIn.size(); i++) {
 			System.out.println("> " + playersIn.get(i).name + " has " + playersIn.get(i).numberOfChips + " chip(s) in the bank");
@@ -116,10 +116,9 @@ public class HandOfPoker {
 					}
 						
 					state = playersIn.get(i).getBet(playersIn.get(i).amountToCall, open);
-					open = true;
 				
 					if(state==1){
-					
+						open = true;
 						pot+=needToCall+1;
 					
 						for (int j = 0; j < playersIn.size(); j++) {
