@@ -4,6 +4,6 @@ Game should ask player if they want to play another round at the end of each han
 Raising with 0 chips should not be allowed
 Game should end when human player has 0 chips
 A bot was missed in a round of betting
-Bot raises, its chips remaining stays the same
-Bot raises then folds, does not lose any chips at the end of a round
+Bot raises, its chips remaining stays the same DONE
+Bot raises then folds, does not lose any chips at the end of a round DONE
 Betting should end once all players have the same stake or fold
