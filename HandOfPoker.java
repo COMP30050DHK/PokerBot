@@ -10,6 +10,7 @@ public class HandOfPoker {
 	protected int pot = 0;
 	protected boolean open = false;
 	private ArrayList<PokerPlayer> pokerPlayers = new ArrayList<PokerPlayer>();
+	private ArrayList<PokerPlayer> playersIn = new ArrayList<PokerPlayer>();
 	private ArrayList<PokerPlayer> foldedPlayers = new ArrayList<PokerPlayer>();
 	private boolean cleanRound = false;
 	private int clean = 0;
@@ -19,26 +20,27 @@ public class HandOfPoker {
 
 	public HandOfPoker(DeckOfCards d, ArrayList<PokerPlayer> players) {
 		pokerPlayers = players;
+		playersIn = pokerPlayers;
 		
 		printPlayerChips();
 		
 		System.out.println("\n>> New Deal:\n");
 		
 		//dealing all players a new hand
-		for (int i = 0; i < pokerPlayers.size(); i++) {
+		for (int i = 0; i < playersIn.size(); i++) {
 			//won't owe anything at start of new round
-			pokerPlayers.get(i).amountToCall=0;
-			pokerPlayers.get(i).newHand();
-			if(pokerPlayers.get(i).isHuman()){
-				System.out.println(pokerPlayers.get(i).hand.toString());
+			playersIn.get(i).amountToCall=0;
+			playersIn.get(i).newHand();
+			if(playersIn.get(i).isHuman()){
+				System.out.println(playersIn.get(i).hand.toString());
 			}
 		}
 	
 		//asking all players if they want to discard
-		for (int i = 0; i < pokerPlayers.size(); i++) {
-			pokerPlayers.get(i).discard();
-			if(pokerPlayers.get(i).isHuman()){
-				System.out.println(pokerPlayers.get(i).hand.toString());
+		for (int i = 0; i<playersIn.size(); i++) {
+			playersIn.get(i).discard();
+			if(playersIn.get(i).isHuman()){
+				System.out.println(playersIn.get(i).hand.toString());
 			}
 		}
 	
@@ -51,11 +53,9 @@ public class HandOfPoker {
 		
 		showCards();
 		
-		for(int i=0; i<foldedPlayers.size(); i++){
-			pokerPlayers.add(foldedPlayers.get(i));
-		}
+
 		
-		winner = pokerPlayers.get(decideWinner());
+		winner = playersIn.get(decideWinner());
 		
 		winner.setNumberOfChips(pot);
 		
@@ -68,8 +68,8 @@ public class HandOfPoker {
 	}
 
 	public void printPlayerChips() {
-		for (int i = 0; i < pokerPlayers.size(); i++) {
-			System.out.println("> " + pokerPlayers.get(i).name + " has " + pokerPlayers.get(i).numberOfChips + " chip(s) in the bank");
+		for (int i = 0; i<playersIn.size(); i++) {
+			System.out.println("> " + playersIn.get(i).name + " has " + playersIn.get(i).numberOfChips + " chip(s) in the bank");
 		}
 	}
 
@@ -77,62 +77,62 @@ public class HandOfPoker {
 		
 		clean = 0;
 		
-		for (int i = 0; i < pokerPlayers.size(); i++) {
+		for (int i = 0; i<playersIn.size(); i++) {
 			
-			System.out.println(pokerPlayers.get(i).getName() + " has " + pokerPlayers.get(i).getNumberOfChips() + " chips");
+			System.out.println(playersIn.get(i).getName() + " has " + playersIn.get(i).getNumberOfChips() + " chips");
 			
-			if(pokerPlayers.get(i).canOpenBetting() || open){
+			if(playersIn.get(i).canOpenBetting() || open){
 				
-				if(pokerPlayers.get(i).getNumberOfChips()==0){
+				if(playersIn.get(i).getNumberOfChips()==0){
 					clean++;
 				}
 				
-				else if(pokerPlayers.get(i).getNumberOfChips()!=0){
+				else if(playersIn.get(i).getNumberOfChips()!=0){
 					
-					needToCall = pokerPlayers.get(i).amountToCall; //stores value player would need to call with
+					needToCall = playersIn.get(i).amountToCall; //stores value player would need to call with
 					
-					if(needToCall>pokerPlayers.get(i).numberOfChips){
-						needToCall = pokerPlayers.get(i).numberOfChips;
-						System.out.println(pokerPlayers.get(i).getName()+" see to go all in with = " + needToCall + "chips");
+					if(needToCall>playersIn.get(i).numberOfChips){
+						needToCall = playersIn.get(i).numberOfChips;
+						System.out.println(playersIn.get(i).getName()+" see to go all in with = " + needToCall + "chips");
 
 					}
 					else{
-						System.out.println(pokerPlayers.get(i).getName()+" call amount = " + needToCall);
+						System.out.println(playersIn.get(i).getName()+" call amount = " + needToCall);
 					}
 					
 					open = true;	
-					state = pokerPlayers.get(i).getBet(pokerPlayers.get(i).amountToCall, open);
+					state = playersIn.get(i).getBet(playersIn.get(i).amountToCall, open);
 				
 					if(state==1){
 					
 						pot+=needToCall+1;
 					
-						for (int j = 0; j < pokerPlayers.size(); j++) {
+						for (int j = 0; j < playersIn.size(); j++) {
 							if(j!=i){
-								pokerPlayers.get(j).amountToCall++;
+								playersIn.get(j).amountToCall++;
 							}
 						}
 					
-						pokerPlayers.get(i).amountToCall = 0;
-						System.out.println(pokerPlayers.get(i).getName() + " has raised");
+						playersIn.get(i).amountToCall = 0;
+						System.out.println(playersIn.get(i).getName() + " has raised");
 					}
 					else if(state==0){
 						pot+=needToCall;
-						pokerPlayers.get(i).amountToCall = 0;
-						System.out.println(pokerPlayers.get(i).getName() + " has called");
+						playersIn.get(i).amountToCall = 0;
+						System.out.println(playersIn.get(i).getName() + " has called");
 						clean++;
 					}
 					else if(state==-1){
-						pokerPlayers.get(i).amountToCall = 0;
-						System.out.println(pokerPlayers.get(i).getName() + " has folded");
-						foldedPlayers.add(pokerPlayers.get(i));
-						pokerPlayers.remove(i);
+						playersIn.get(i).amountToCall = 0;
+						System.out.println(playersIn.get(i).getName() + " has folded");
+						foldedPlayers.add(playersIn.get(i));
+						playersIn.remove(i);
 					}
 				}
 			}
 		}
 		
-		if(clean == pokerPlayers.size()){
+		if(clean == playersIn.size()){
 			cleanRound = true;
 		}
 	}
@@ -141,8 +141,8 @@ public class HandOfPoker {
 		
 		System.out.println("\nEND OF ROUND\n");
 		
-		for (int i = 0; i < pokerPlayers.size(); i++) {
-			System.out.println(pokerPlayers.get(i).name + ": " + pokerPlayers.get(i).hand.toString());
+		for (int i = 0; i<playersIn.size(); i++) {
+			System.out.println(playersIn.get(i).name + ": " + playersIn.get(i).hand.toString());
 		}
 	}
 
@@ -151,9 +151,9 @@ public class HandOfPoker {
 		int max = 0;
 		int winner=0;
 		
-		for (int i = 0; i < pokerPlayers.size(); i++) {
-			if(pokerPlayers.get(i).hand.getGameValue()>max){
-				max = pokerPlayers.get(i).hand.getGameValue();
+		for (int i = 0; i < playersIn.size(); i++) {
+			if(playersIn.get(i).hand.getGameValue()>max){
+				max = playersIn.get(i).hand.getGameValue();
 				winner = i;
 			}
 		}
