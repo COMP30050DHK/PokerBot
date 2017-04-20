@@ -19,32 +19,23 @@ public class HandOfPoker {
 
 
 	public HandOfPoker(DeckOfCards d, ArrayList<PokerPlayer> players) {
+		
 		pokerPlayers = players;
 		playersIn = pokerPlayers;
 		
 		printPlayerChips();
-		
-		System.out.println("\n>> New Deal:\n");
-		
-		//dealing all players a new hand
-		for (int i = 0; i < playersIn.size(); i++) {
-			//won't owe anything at start of new round
-			playersIn.get(i).amountToCall=0;
-			playersIn.get(i).newHand();
-			if(playersIn.get(i).isHuman()){
-				System.out.println(playersIn.get(i).hand.toString());
-			}
-		}
+		executeHandOfPoker();
+	}
 	
-		//asking all players if they want to discard
-		for (int i = 0; i<playersIn.size(); i++) {
-			playersIn.get(i).discard();
-			if(playersIn.get(i).isHuman()){
-				System.out.println(playersIn.get(i).hand.toString());
-			}
-		}
+	public void executeHandOfPoker(){
+		
+		newHandCycle();
+		
+		discardCycle();
 	
 		//ready to start the betting cycle
+		//betting stops whenever clean round is true
+		//becomes true when there has been a full rotation of calling/seeing
 		cleanRound = false;
 		
 		while(cleanRound!=true){
@@ -53,10 +44,7 @@ public class HandOfPoker {
 		
 		showCards();
 		
-
-		
 		winner = playersIn.get(decideWinner());
-		
 		winner.setNumberOfChips(pot);
 		
 		System.out.println("\n" + winner.name + " won " + pot + " chips");
@@ -64,12 +52,39 @@ public class HandOfPoker {
 		return;
 		
 		
-			
 	}
 
 	public void printPlayerChips() {
+		
+		System.out.println("\n>> EVERYONE'S CHIPS\n");
+		
 		for (int i = 0; i<playersIn.size(); i++) {
 			System.out.println("> " + playersIn.get(i).name + " has " + playersIn.get(i).numberOfChips + " chip(s) in the bank");
+		}
+	}
+	
+	//dealing all players a new hand
+	public void newHandCycle(){
+		
+		System.out.println("\n>> DEALING NEW CARDS\n");
+		
+		for (int i = 0; i < playersIn.size(); i++) {
+			//won't owe anything at start of new round
+			playersIn.get(i).amountToCall=0;
+			playersIn.get(i).newHand();
+			if(playersIn.get(i).isHuman()){
+				System.out.println(playersIn.get(i).hand.toString());
+			}
+		}	
+	}
+	
+	//asking all players if they want to discard
+	public void discardCycle(){
+		for (int i = 0; i<playersIn.size(); i++) {
+			playersIn.get(i).discard();
+			if(playersIn.get(i).isHuman()){
+				System.out.println(playersIn.get(i).hand.toString());
+			}
 		}
 	}
 

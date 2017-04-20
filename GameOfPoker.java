@@ -88,7 +88,6 @@ public class GameOfPoker {
 		GameOfPoker game = new GameOfPoker();
 		game.playGame();
 	
-	
 	}
 	
 }
