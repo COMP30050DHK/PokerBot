@@ -17,10 +17,11 @@ public class HandOfPoker {
 	private int needToCall = 0;
 	private int cantOpen = 0;
 	PokerPlayer winner;
+	DeckOfCards deck;
 
 
 	public HandOfPoker(DeckOfCards d, ArrayList<PokerPlayer> players) {
-		
+		deck = d;
 		pokerPlayers.addAll(players);
 		playersIn.addAll(players);
 		
@@ -29,9 +30,8 @@ public class HandOfPoker {
 	}
 	
 	public void executeHandOfPoker(){
-		
+
 		newHandCycle();
-		
 		discardCycle();
 	
 		//ready to start the betting cycle
@@ -47,7 +47,7 @@ public class HandOfPoker {
 		}
 		
 		showCards();
-		
+		returnCards();
 		if(!playersIn.isEmpty()){
 			winner = playersIn.get(decideWinner());
 			winner.setNumberOfChips(pot);
@@ -60,10 +60,16 @@ public class HandOfPoker {
 		}
 		
 		
-		
+	
 		return;
 		
 		
+	}
+	
+	private void returnCards(){
+		for (int i=0;i<pokerPlayers.size();i++){
+			pokerPlayers.get(i).returnCards();
+		}
 	}
 
 	public void printPlayerChips() {
@@ -192,7 +198,7 @@ public class HandOfPoker {
 
 	public void showCards() {
 		
-		System.out.println("\nEND OF ROUND\n");
+		//System.out.println("\nEND OF ROUND\n");
 		
 		for (int i = 0; i<playersIn.size(); i++) {
 			System.out.println(playersIn.get(i).name + ": " + playersIn.get(i).hand.toString());

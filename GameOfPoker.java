@@ -62,7 +62,7 @@ public class GameOfPoker {
 				removePlayerCheck(i);
 			}
 		
-			rotateOpeningPlayer();	
+			rotateOpeningPlayer();
 		}
 		
 		//There is only one player left

@@ -49,7 +49,7 @@ public class DeckOfCards {
 					return nullCard;
 				} else{
 					//add returned cards to the deck and shuffle
-					deck = returnedCards;
+					deck.addAll(returnedCards);
 					returnedCards.clear();
 					shuffle();
 				}

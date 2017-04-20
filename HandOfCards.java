@@ -56,6 +56,12 @@ public class HandOfCards {
 		sort();
 	}
 	
+	public void returnCards(){
+		for (int i=0;i<HAND_SIZE;i++){
+			deck.returnCard(cards[i]);
+		}
+	}
+	
 	// uses insertion sort algorithm to sort cards by GameValue from lowest to highest
 	//  with lowest value card being in cards[0]
 	private void sort(){

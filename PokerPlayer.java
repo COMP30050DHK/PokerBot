@@ -23,13 +23,15 @@ public class PokerPlayer {
 	public PokerPlayer(DeckOfCards d, String playerName){
 		name = playerName;
 		numberOfChips = STARTING_NUMBER_OF_CHIPS;
-		hand = new HandOfCards(d);
 		deck = d;
 	}
 	
 	public void newHand(){
-		deck.reset();
 		hand = new HandOfCards(deck);
+	}
+	
+	public void returnCards(){
+		hand.returnCards();
 	}
 	
 	public boolean isHuman(){
@@ -104,6 +106,7 @@ public class PokerPlayer {
 		for (int i=0;i<sampleSize;i++){
 			DeckOfCards deck = new DeckOfCards();
 			PokerPlayer player = new PokerPlayer(deck, "INSERT_NAME");
+			player.newHand();
 			System.out.println("Starting hand: "+player.toString());
 			int initialValue = player.getHandValue();
 			int cardsDiscarded = player.discard();
