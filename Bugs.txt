@@ -1,0 +1,2 @@
+Pot not splitting when it should
+Infinite loop when seeing with 0 chips
