@@ -45,7 +45,7 @@ public class HumanPokerPlayer extends PokerPlayer{
 		}
 		
 		
-		System.out.print(">> Which card(s) would you like to swap (e.g., 1,3): ");
+		System.out.print(">> Which card(s) would you like to swap from 0-4 (e.g. 0,3): ");
 
 		input = scanner.next();
 		char nextChar;
