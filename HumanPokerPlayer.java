@@ -25,10 +25,11 @@ public class HumanPokerPlayer extends PokerPlayer{
 		Scanner scanner = new Scanner(System.in);
 		boolean validInput = false;
 		
-		System.out.print(">> Would you like to swap any cards? ('n' or 'y') ");
+		System.out.print(">> Would you like to swap any cards? ('n' or 'y'): ");
 		String input = scanner.next();
 		
 		while(!validInput){
+			
 			if (input.equalsIgnoreCase("n")){
 				validInput=true;
 				return 0;
@@ -37,7 +38,8 @@ public class HumanPokerPlayer extends PokerPlayer{
 				validInput=true;
 			}
 			else{
-				System.out.print("INVALID INPUT ('y' or 'n')");
+				System.out.print(">> INVALID INPUT ('y' or 'n'): ");
+				input = scanner.next();
 			}
 			
 		}
