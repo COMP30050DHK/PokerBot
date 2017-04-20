@@ -198,7 +198,7 @@ public class HandOfPoker {
 
 	public void showCards() {
 		
-		//System.out.println("\nEND OF ROUND\n");
+		System.out.println("\nEND OF ROUND\n");
 		
 		for (int i = 0; i<playersIn.size(); i++) {
 			System.out.println(playersIn.get(i).name + ": " + playersIn.get(i).hand.toString());
