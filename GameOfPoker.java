@@ -25,8 +25,7 @@ public class GameOfPoker {
 	    	}
 	    }
 	    	    
-	    //Creating players here
-	    	   
+	    //Creating players here	   
 		PokerPlayer human = new HumanPokerPlayer(d, name);
 		players.add(human);
 		
@@ -44,8 +43,7 @@ public class GameOfPoker {
 		if(botNum>3){
 			PokerPlayer William = new AutomatedPokerPlayer(d, "William", Math.random(), Math.random());
 			players.add(William);
-		}
-	    	
+		}	
 	}
 	    
 	public static void removePlayerCheck(int i){
