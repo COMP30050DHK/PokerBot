@@ -1,6 +1,6 @@
 Pot not splitting when it should
 Infinite loop when seeing with 0 chips
-Game should ask player if they want to play another round at the end of each hand
+Game should ask player if they want to play another round at the end of each hand  DONE
 Raising with 0 chips should not be allowed
 Game should end when human player has 0 chips
 A bot was missed in a round of betting
