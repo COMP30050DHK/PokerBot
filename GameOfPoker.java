@@ -8,18 +8,19 @@ public class GameOfPoker {
 	public static ArrayList<PokerPlayer> players = new ArrayList<PokerPlayer>();
 	public static String name = "";
 	public static int botNum = 0;
-	public static int playerNum = 0;
 	public static DeckOfCards d;
 	public static int openingPlayer = 0;
 	
 	//Constructor sets up the game
 	public GameOfPoker(){
+		
 		DeckOfCards d = new DeckOfCards();
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Welcome to the Automated Poker Machine!\nWhat is your name?");
 	    name = scanner.next();
     	System.out.println("Welcome, "+name+". How many bots would you like to play against (1-4)?");
-	    while(botNum<1||botNum>4){
+	    
+    	while(botNum<1||botNum>4){
 	    	botNum = scanner.nextInt();
 	    	if(botNum<1||botNum>4){
 	    		System.out.println("Invalid number of bots. How many bots would you like to play against (Integer 1-4)?");
@@ -51,23 +52,17 @@ public class GameOfPoker {
 	public static void playGame(){
 		
 		while(players.size()>1){
-			
-			for(int i=players.size()-1; i>=0; i--){
-				System.out.println(players.get(i).getName());
-			}
 
 			HandOfPoker pokerHand = new HandOfPoker(d, players);
+			//executes 1 hand of poker
 			pokerHand.executeHandOfPoker();
 			
 			//important to check in reverse so no player is skipped if one is removed
 			for(int i=players.size()-1; i>=0; i--){
 				removePlayerCheck(i);
 			}
-			
-
-			
-			rotateOpeningPlayer();
-			
+		
+			rotateOpeningPlayer();	
 		}
 		
 		//There is only one player left
