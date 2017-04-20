@@ -52,12 +52,20 @@ public class GameOfPoker {
 		
 		while(players.size()>1){
 			
+			for(int i=players.size()-1; i>=0; i--){
+				System.out.println(players.get(i).getName());
+			}
+
+			HandOfPoker pokerHand = new HandOfPoker(d, players);
+			pokerHand.executeHandOfPoker();
+			
 			//important to check in reverse so no player is skipped if one is removed
 			for(int i=players.size()-1; i>=0; i--){
 				removePlayerCheck(i);
 			}
+			
 
-			HandOfPoker pokerHand = new HandOfPoker(d, players);
+			
 			rotateOpeningPlayer();
 			
 		}

@@ -15,6 +15,7 @@ public class HandOfPoker {
 	private boolean cleanRound = false;
 	private int clean = 0;
 	private int needToCall = 0;
+	private int cantOpen = 0;
 	PokerPlayer winner;
 
 
@@ -24,7 +25,7 @@ public class HandOfPoker {
 		playersIn = pokerPlayers;
 		
 		printPlayerChips();
-		executeHandOfPoker();
+		
 	}
 	
 	public void executeHandOfPoker(){
@@ -48,6 +49,10 @@ public class HandOfPoker {
 		winner.setNumberOfChips(pot);
 		
 		System.out.println("\n" + winner.name + " won " + pot + " chips");
+		
+		playersIn.addAll(foldedPlayers);
+		
+		
 		
 		return;
 		
@@ -96,46 +101,61 @@ public class HandOfPoker {
 			
 			System.out.println(playersIn.get(i).getName() + " has " + playersIn.get(i).getNumberOfChips() + " chips");
 			
+			//if the betting is already open or if player can open betting
 			if(playersIn.get(i).canOpenBetting() || open){
 				
+				//all their remaining chips are invested in this round
 				if(playersIn.get(i).getNumberOfChips()==0){
 					clean++;
 				}
 				
+				//still have chips left so have a choice
 				else if(playersIn.get(i).getNumberOfChips()!=0){
 					
-					needToCall = playersIn.get(i).amountToCall; //stores value player would need to call with
+					//stores value player would need to call with
+					needToCall = playersIn.get(i).amountToCall;
 					
 					if(needToCall>playersIn.get(i).numberOfChips){
 						needToCall = playersIn.get(i).numberOfChips;
-						System.out.println(playersIn.get(i).getName()+" see to go all in with = " + needToCall + "chips");
+						System.out.println(playersIn.get(i).getName()+" see/call to go all in with = " + needToCall + "chips");
 
 					}
 					else{
-						System.out.println(playersIn.get(i).getName()+" call amount = " + needToCall);
+						if(open){
+							System.out.println(playersIn.get(i).getName()+" call/see amount = " + needToCall + " chip(s)");
+						}
 					}
 						
 					state = playersIn.get(i).getBet(playersIn.get(i).amountToCall, open);
 				
+					//raised by 1
 					if(state==1){
+						//betting becomes open
 						open = true;
+						//pot is increased by call + 1 (they raised)
 						pot+=needToCall+1;
 					
+						//increasing all players call value except their own
 						for (int j = 0; j < playersIn.size(); j++) {
 							if(j!=i){
 								playersIn.get(j).amountToCall++;
 							}
 						}
 					
+						//now don't need to call anything
 						playersIn.get(i).amountToCall = 0;
 						System.out.println(playersIn.get(i).getName() + " has raised");
 					}
+					
+					//called
 					else if(state==0){
 						pot+=needToCall;
 						playersIn.get(i).amountToCall = 0;
 						System.out.println(playersIn.get(i).getName() + " has called");
 						clean++;
 					}
+					
+					//folded
 					else if(state==-1){
 						playersIn.get(i).amountToCall = 0;
 						System.out.println(playersIn.get(i).getName() + " has folded");
@@ -144,6 +164,19 @@ public class HandOfPoker {
 					}
 				}
 			}
+			
+			else if(!playersIn.get(i).canOpenBetting() && !open){
+				
+				System.out.println(playersIn.get(i).getName()+" cant open betting!");
+				cantOpen++;
+				
+				if(cantOpen>=playersIn.size()){
+					System.out.println("Nobody wants to open, round over!");
+					return;
+				}
+				
+			}
+			
 		}
 		
 		if(clean == playersIn.size()){
