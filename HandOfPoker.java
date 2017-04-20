@@ -99,9 +99,9 @@ public class HandOfPoker {
 					else{
 						System.out.println(playersIn.get(i).getName()+" call amount = " + needToCall);
 					}
-					
-					open = true;	
+						
 					state = playersIn.get(i).getBet(playersIn.get(i).amountToCall, open);
+					open = true;
 				
 					if(state==1){
 					
