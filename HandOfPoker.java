@@ -11,8 +11,8 @@ public class HandOfPoker {
 	protected boolean open = false;
 	private ArrayList<PokerPlayer> pokerPlayers = new ArrayList<PokerPlayer>();
 	private ArrayList<PokerPlayer> playersIn = new ArrayList<PokerPlayer>();
-	private ArrayList<PokerPlayer> foldedPlayers = new ArrayList<PokerPlayer>();
 	private boolean cleanRound = false;
+	private boolean roundOver = false;
 	private int clean = 0;
 	private int needToCall = 0;
 	private int cantOpen = 0;
@@ -41,18 +41,23 @@ public class HandOfPoker {
 		
 		while(cleanRound!=true){
 			bettingRound();
+			if(roundOver){
+				return;
+			}
 		}
 		
 		showCards();
 		
-		winner = playersIn.get(decideWinner());
-		winner.setNumberOfChips(pot);
+		if(!playersIn.isEmpty()){
+			winner = playersIn.get(decideWinner());
+			winner.setNumberOfChips(pot);
 		
-		System.out.println("\n" + winner.name + " won " + pot + " chips");
+			System.out.println("\n" + winner.name + " won " + pot + " chips");
 		
-		playersIn.clear();
+			playersIn.clear();
 		
-		playersIn.addAll(pokerPlayers);
+			playersIn.addAll(pokerPlayers);
+		}
 		
 		
 		
@@ -161,7 +166,6 @@ public class HandOfPoker {
 					else if(state==-1){
 						playersIn.get(i).amountToCall = 0;
 						System.out.println(playersIn.get(i).getName() + " has folded");
-						foldedPlayers.add(playersIn.get(i));
 						playersIn.remove(i);
 					}
 				}
@@ -174,7 +178,7 @@ public class HandOfPoker {
 				
 				if(cantOpen>=playersIn.size()){
 					System.out.println("Nobody wants to open, round over!");
-					return;
+					roundOver = true;
 				}
 				
 			}
