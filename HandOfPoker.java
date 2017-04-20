@@ -10,6 +10,7 @@ public class HandOfPoker {
 	protected int pot = 0;
 	protected boolean open = false;
 	private ArrayList<PokerPlayer> pokerPlayers = new ArrayList<PokerPlayer>();
+	private ArrayList<PokerPlayer> foldedPlayers = new ArrayList<PokerPlayer>();
 	private boolean cleanRound = false;
 	private int clean = 0;
 	private int needToCall = 0;
@@ -18,7 +19,10 @@ public class HandOfPoker {
 
 	public HandOfPoker(DeckOfCards d, ArrayList<PokerPlayer> players) {
 		pokerPlayers = players;
-		System.out.println(">> New Deal:");
+		
+		printPlayerChips();
+		
+		System.out.println("\n>> New Deal:\n");
 		
 		//dealing all players a new hand
 		for (int i = 0; i < pokerPlayers.size(); i++) {
@@ -47,11 +51,17 @@ public class HandOfPoker {
 		
 		showCards();
 		
+		for(int i=0; i<foldedPlayers.size(); i++){
+			pokerPlayers.add(foldedPlayers.get(i));
+		}
+		
 		winner = pokerPlayers.get(decideWinner());
 		
 		winner.setNumberOfChips(pot);
 		
 		System.out.println("\n" + winner.name + " won " + pot + " chips");
+		
+		return;
 		
 		
 			
@@ -69,37 +79,55 @@ public class HandOfPoker {
 		
 		for (int i = 0; i < pokerPlayers.size(); i++) {
 			
+			System.out.println(pokerPlayers.get(i).getName() + " has " + pokerPlayers.get(i).getNumberOfChips() + " chips");
+			
 			if(pokerPlayers.get(i).canOpenBetting() || open){
 				
-				System.out.println(pokerPlayers.get(i).getName()+" call amount = " + pokerPlayers.get(i).amountToCall);
-
-				open = true;	
-				needToCall = pokerPlayers.get(i).amountToCall; //stores value player would need to call with
-				state = pokerPlayers.get(i).getBet(pokerPlayers.get(i).amountToCall, open);
-				
-				if(state==1){
-					
-					pot+=needToCall+1;
-					
-					for (int j = 0; j < pokerPlayers.size(); j++) {
-						if(j!=i){
-							pokerPlayers.get(j).amountToCall++;
-						}
-					}
-					
-					pokerPlayers.get(i).amountToCall = 0;
-					System.out.println(pokerPlayers.get(i).getName() + " has raised");
-				}
-				else if(state==0){
-					pot+=needToCall;
-					pokerPlayers.get(i).amountToCall = 0;
-					System.out.println(pokerPlayers.get(i).getName() + " has called");
+				if(pokerPlayers.get(i).getNumberOfChips()==0){
 					clean++;
 				}
-				else if(state==-1){
-					pokerPlayers.get(i).amountToCall = 0;
-					System.out.println(pokerPlayers.get(i).getName() + " has folded");
-					pokerPlayers.remove(i);
+				
+				else if(pokerPlayers.get(i).getNumberOfChips()!=0){
+					
+					needToCall = pokerPlayers.get(i).amountToCall; //stores value player would need to call with
+					
+					if(needToCall>pokerPlayers.get(i).numberOfChips){
+						needToCall = pokerPlayers.get(i).numberOfChips;
+						System.out.println(pokerPlayers.get(i).getName()+" see to go all in with = " + needToCall + "chips");
+
+					}
+					else{
+						System.out.println(pokerPlayers.get(i).getName()+" call amount = " + needToCall);
+					}
+					
+					open = true;	
+					state = pokerPlayers.get(i).getBet(pokerPlayers.get(i).amountToCall, open);
+				
+					if(state==1){
+					
+						pot+=needToCall+1;
+					
+						for (int j = 0; j < pokerPlayers.size(); j++) {
+							if(j!=i){
+								pokerPlayers.get(j).amountToCall++;
+							}
+						}
+					
+						pokerPlayers.get(i).amountToCall = 0;
+						System.out.println(pokerPlayers.get(i).getName() + " has raised");
+					}
+					else if(state==0){
+						pot+=needToCall;
+						pokerPlayers.get(i).amountToCall = 0;
+						System.out.println(pokerPlayers.get(i).getName() + " has called");
+						clean++;
+					}
+					else if(state==-1){
+						pokerPlayers.get(i).amountToCall = 0;
+						System.out.println(pokerPlayers.get(i).getName() + " has folded");
+						foldedPlayers.add(pokerPlayers.get(i));
+						pokerPlayers.remove(i);
+					}
 				}
 			}
 		}
@@ -107,32 +135,6 @@ public class HandOfPoker {
 		if(clean == pokerPlayers.size()){
 			cleanRound = true;
 		}
-		
-		
-		
-	}
-
-	public int discard() {
-
-		// Human section
-
-		HumanPokerPlayer human = (HumanPokerPlayer)pokerPlayers.get(0);
-
-		System.out.print(">> Which card(s) would you like to discard (e.g., 1,3): ");
-		Scanner scanner = new Scanner(System.in);
-		String input = scanner.next();
-		char nextChar;
-		int cardsDiscarded=0;
-		for (int i=0;i<input.length();i++){
-			nextChar = input.charAt(i);
-			if (nextChar>='0' && nextChar<='4'){
-				int cardPosition = nextChar - '0';
-				PlayingCard card = human.deck.deal();
-				human.hand.discardAndReplace(cardPosition, card);
-				cardsDiscarded++;
-			}
-		}
-		return cardsDiscarded;
 	}
 
 	public void showCards() {

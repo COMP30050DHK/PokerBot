@@ -67,9 +67,16 @@ public class GameOfPoker {
 		
 		while(players.size()>1){
 			
+			
+			
+			
 			for(int i=0; i<players.size(); i++){
 				removePlayerCheck(i);
 			}
+			
+
+			
+			
 
 			HandOfPoker pokerHand = new HandOfPoker(d, players);
 			
@@ -77,6 +84,8 @@ public class GameOfPoker {
 			
 		}
 		
+		
+		System.out.println(players.size());
 		
 		
 		System.out.println("The winner was " + players.get(0).getName());
