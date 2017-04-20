@@ -12,6 +12,7 @@ public class GameOfPoker {
 	public static DeckOfCards d;
 	public static int openingPlayer = 0;
 	
+	//Constructor sets up the game
 	public GameOfPoker(){
 		DeckOfCards d = new DeckOfCards();
 		Scanner scanner = new Scanner(System.in);
@@ -46,9 +47,12 @@ public class GameOfPoker {
 		}	
 	}
 	
+	//plays through a game of poker
 	public static void playGame(){
 		
 		while(players.size()>1){
+			
+			//important to check in reverse so no player is skipped if one is removed
 			for(int i=players.size()-1; i>=0; i--){
 				removePlayerCheck(i);
 			}
@@ -58,14 +62,12 @@ public class GameOfPoker {
 			
 		}
 		
-		
-		System.out.println(players.size());
-		
-		
+		//There is only one player left
 		System.out.println("The winner was " + players.get(0).getName());
 	
 	}
 	    
+	//checks if any players have 0 chips left and eliminates them
 	public static void removePlayerCheck(int i){
 		if(players.get(i).numberOfChips<=0){
 			System.out.println("Player "+players.get(i).name+" has no chips remaining and has been eliminated from the game.");
@@ -74,6 +76,7 @@ public class GameOfPoker {
 		}
 	}
 	
+	//rotates which player starts the betting
 	public static void rotateOpeningPlayer(){
 		PokerPlayer rotate = players.remove(0);
 		players.add(rotate);
@@ -87,4 +90,5 @@ public class GameOfPoker {
 	
 	
 	}
+	
 }

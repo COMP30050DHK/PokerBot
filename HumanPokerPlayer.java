@@ -22,9 +22,30 @@ public class HumanPokerPlayer extends PokerPlayer{
 	 * 
 	 */
 	public int discard(){
-		System.out.print(">> Which card(s) would you like to discard (e.g., 1,3): ");
 		Scanner scanner = new Scanner(System.in);
+		boolean validInput = false;
+		
+		System.out.print(">> Would you like to swap any cards? ('n' or 'y') ");
 		String input = scanner.next();
+		
+		while(!validInput){
+			if (input.equalsIgnoreCase("n")){
+				validInput=true;
+				return 0;
+			}
+			else if (input.equalsIgnoreCase("y")){
+				validInput=true;
+			}
+			else{
+				System.out.print("INVALID INPUT ('y' or 'n')");
+			}
+			
+		}
+		
+		
+		System.out.print(">> Which card(s) would you like to swap (e.g., 1,3): ");
+
+		input = scanner.next();
 		char nextChar;
 		int cardsDiscarded=0;
 		for (int i=0;i<input.length();i++){
