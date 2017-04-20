@@ -11,6 +11,7 @@ public class GameOfPoker {
 	public static DeckOfCards d;
 	public static int openingPlayer = 0;
 	private static Scanner scanner;
+	private String[] botNames = {"Tom", "Dick", "Harry", "William"};
 	
 	//Constructor sets up the game
 	public GameOfPoker(){
@@ -32,21 +33,11 @@ public class GameOfPoker {
 		PokerPlayer human = new HumanPokerPlayer(d, name);
 		players.add(human);
 		
-		PokerPlayer Tom = new AutomatedPokerPlayer(d, "Tom", Math.random(), Math.random());
-		players.add(Tom);
-		
-		if(botNum>1){
-			PokerPlayer Dick = new AutomatedPokerPlayer(d, "Dick", Math.random(), Math.random());
-			players.add(Dick);
+		for (int i=0;i<botNum;i++){
+			PokerPlayer bot = new AutomatedPokerPlayer(d, botNames[i], Math.random(), Math.random());
+			players.add(bot);
 		}
-		if(botNum>2){
-			PokerPlayer Harry = new AutomatedPokerPlayer(d, "Harry", Math.random(), Math.random());
-			players.add(Harry);
-		}
-		if(botNum>3){
-			PokerPlayer William = new AutomatedPokerPlayer(d, "William", Math.random(), Math.random());
-			players.add(William);
-		}	
+
 	}
 	
 	//plays through a game of poker
@@ -91,7 +82,7 @@ public class GameOfPoker {
 			return 0;
 		}
 		for (int i=0;i<players.size();i++){
-			if (players.get(i).isHuman() && players.get(i).numberOfChips<=0){
+			if (players.get(i).isHuman() && players.get(i).isBust()){
 				return -1;
 			}
 		}
@@ -118,7 +109,7 @@ public class GameOfPoker {
 	    
 	//checks if any players have 0 chips left and eliminates them
 	public static void removePlayerCheck(int i){
-		if(players.get(i).numberOfChips<=0){
+		if(players.get(i).isBust()){
 			System.out.println("Player "+players.get(i).name+" has no chips remaining and has been eliminated from the game.");
 			players.remove(i);
 			botNum--;

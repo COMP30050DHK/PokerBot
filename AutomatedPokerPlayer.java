@@ -45,6 +45,7 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 			float possibleBluff = new Random().nextFloat();
 			
 			if(possibleBluff<bluffLevel/3){
+				setNumberOfChips(-currentHighBet-1);
 				return 1;
 			}
 		}

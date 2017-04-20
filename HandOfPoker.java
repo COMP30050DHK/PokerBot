@@ -110,10 +110,8 @@ public class HandOfPoker {
 		
 		clean = 0;
 		
-		for (int i = 0; i<playersIn.size(); i++) {
-			
+		for (int i = 0; i<playersIn.size(); i++) {			
 			System.out.println(playersIn.get(i).getName() + " has " + playersIn.get(i).getNumberOfChips() + " chips");
-			
 			//if the betting is already open or if player can open betting
 			if(playersIn.get(i).canOpenBetting() || open){
 				
