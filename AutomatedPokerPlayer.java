@@ -1,7 +1,6 @@
 package poker;
 
 import java.util.Random;
-import java.util.Scanner;
 
 public class AutomatedPokerPlayer extends PokerPlayer {
 	
@@ -22,8 +21,31 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 		return false;
 	}
 	
-	public void changeRisk(double newRisk){
+	private void changeRisk(double newRisk){
 		riskAversion = newRisk;
+	}
+	
+	//gets the discard probabilities of the cards in the hand, generates 5 random
+	// numbers from zero to 99 and discards cards whose discard probabilities are
+	// lower than the corresponding discard probabilities
+	public int discard(){
+		int numOfCardsDiscarded=0;
+		Random rand = new Random();
+		int discardProbabilities[] = new int[HandOfCards.HAND_SIZE];
+		//get discard probabilities
+		for (int j=0;j<HandOfCards.HAND_SIZE;j++){
+			discardProbabilities[j] = hand.getDiscardProbability(j);
+		}
+		//compare discard probabilities to random numbers and discard cards
+		for (int i=0;i<HandOfCards.HAND_SIZE;i++){
+			int randomNumber = rand.nextInt(100);
+			if (randomNumber<discardProbabilities[i]){
+				hand.discardAndReplace(i, deck.deal());
+				numOfCardsDiscarded++;
+			}
+		}
+		//returns the number of cards discarded
+		return numOfCardsDiscarded;
 	}
 	
 	public int getBet(int currentHighBet, boolean open){
@@ -36,6 +58,7 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 				percentageOfChips = (int) (((float)currentHighBet/numberOfChips)*100.0);	
 			}
 		}
+		
 		else if(currentHighBet>=numberOfChips){
 			percentageOfChips = 100;
 		}
@@ -94,7 +117,6 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 				
 			}
 			
-			
 			if(bet==0){
 				setNumberOfChips(-currentHighBet);
 				amountToCall = 0;
@@ -116,6 +138,7 @@ public class AutomatedPokerPlayer extends PokerPlayer {
 	public static void main(String[] args){
 		DeckOfCards deck = new DeckOfCards();
 		AutomatedPokerPlayer player = new AutomatedPokerPlayer(deck, "Robo", 0.3, 0.3);
+		player.newHand();
 		player.discard();
 		System.out.println(player.toString() + "\n");
 		System.out.print("HIGH RISK TAKER:\t");

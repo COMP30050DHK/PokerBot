@@ -115,8 +115,10 @@ public class HandOfPoker {
 				return;
 			}
 			
+			System.out.println(clean);
+			
 			//means everyone has called in this round and betting will stop
-			if(clean >= playersIn.size()){
+			if(clean+1 >= playersIn.size()){
 				cleanRound = true;
 				return;
 			}
@@ -193,7 +195,6 @@ public class HandOfPoker {
 						System.out.println(playersIn.get(i).getName() + " has folded");
 						playersIn.remove(i);
 						i--;
-						clean++;
 					}
 				}
 			}

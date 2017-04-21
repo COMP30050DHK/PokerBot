@@ -9,7 +9,6 @@ public class GameOfPoker {
 	public static String name = "";
 	public static int botNum = 0;
 	public static DeckOfCards d;
-	public static int openingPlayer = 0;
 	private static Scanner scanner;
 	private String[] botNames = {"Tom", "Dick", "Harry", "William"};
 	
@@ -41,9 +40,10 @@ public class GameOfPoker {
 	}
 	
 	//plays through a game of poker
-	public static void playGame(){
+	public void playGame(){
 		boolean playOn = true;
 		int result = 0;
+		
 		while(playOn){
 
 			HandOfPoker pokerHand = new HandOfPoker(d, players);
@@ -54,8 +54,6 @@ public class GameOfPoker {
 			for(int i=players.size()-1; i>=0; i--){
 				removePlayerCheck(i);
 			}
-			
-			
 		
 			rotateOpeningPlayer();
 			result = playAnotherRound();
@@ -72,7 +70,6 @@ public class GameOfPoker {
 				System.out.println("Thanks for playing!");
 		}
 	}
-	
 	
 	/* returns 1 if the human player wishes to play another round and can,
 	 *  0 if the human player has no opponents remaining 
@@ -118,7 +115,7 @@ public class GameOfPoker {
 	}
 	    
 	//checks if any players have 0 chips left and eliminates them
-	public static void removePlayerCheck(int i){
+	private static void removePlayerCheck(int i){
 		if(players.get(i).isBust()){
 			System.out.println("Player "+players.get(i).name+" has no chips remaining and has been eliminated from the game.");
 			players.remove(i);
@@ -127,7 +124,7 @@ public class GameOfPoker {
 	}
 	
 	//rotates which player starts the betting
-	public static void rotateOpeningPlayer(){
+	private static void rotateOpeningPlayer(){
 		PokerPlayer rotate = players.remove(0);
 		players.add(rotate);
 	}
