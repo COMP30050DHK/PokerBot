@@ -58,6 +58,8 @@ public class HandOfPoker {
 			playersIn.addAll(pokerPlayers);
 		}
 		
+		printPlayerChips();
+		
 		return;
 		
 	}
@@ -109,6 +111,12 @@ public class HandOfPoker {
 		
 		//going to cycle through all players for a round of betting
 		for (int i = 0; i<playersIn.size(); i++) {
+			
+			if(playersIn.size()==1){
+				cleanRound=true;
+			}
+			
+			
 			
 			System.out.println(playersIn.get(i).getName() + " has " + playersIn.get(i).getNumberOfChips() + " chips");
 			

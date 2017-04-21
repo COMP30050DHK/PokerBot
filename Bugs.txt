@@ -6,4 +6,4 @@ Game should end when human player has 0 chips DONE
 A bot was missed in a round of betting DONE
 Bot raises, its chips remaining stays the same DONE
 Bot raises then folds, does not lose any chips at the end of a round DONE
-Betting should end once all players have the same stake or fold
+Betting should end once all players have the same stake or fold DONE
