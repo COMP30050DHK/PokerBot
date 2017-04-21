@@ -54,6 +54,8 @@ public class GameOfPoker {
 			for(int i=players.size()-1; i>=0; i--){
 				removePlayerCheck(i);
 			}
+			
+			
 		
 			rotateOpeningPlayer();
 			result = playAnotherRound();
@@ -78,14 +80,22 @@ public class GameOfPoker {
 	 *  -2 if the human player does not want to play another round
 	 */
 	private static int playAnotherRound(){
+		
+		boolean humanLeft=false;
+		
 		if (players.size()==1 && players.get(0).isHuman()){
 			return 0;
 		}
 		for (int i=0;i<players.size();i++){
-			if (players.get(i).isHuman() && players.get(i).isBust()){
-				return -1;
+			if (players.get(i).isHuman()){
+				humanLeft=true;
 			}
 		}
+		
+		if(!humanLeft){
+			return -1;
+		}
+		
 		System.out.print(">> Would you like to play another round? ('n' or 'y'): ");
 		String input = scanner.next();
 		boolean validInput = false;
