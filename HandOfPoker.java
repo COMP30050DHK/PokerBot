@@ -106,11 +106,18 @@ public class HandOfPoker {
 
 	public void bettingRound() {
 		
+		
 		//going to cycle through all players for a round of betting
 		for (int i = 0; i<playersIn.size(); i++) {
 			
 			if(playersIn.size()==1){
 				cleanRound=true;
+				return;
+			}
+			
+			//means everyone has called in this round and betting will stop
+			if(clean >= playersIn.size()){
+				cleanRound = true;
 				return;
 			}
 			
@@ -208,12 +215,7 @@ public class HandOfPoker {
 			}
 			
 		}
-		
-		//means everyone has called in this round and betting will stop
-		if(clean+1 >= playersIn.size()){
-			cleanRound = true;
-			return;
-		}
+	
 	}
 
 	public void showCards() {
