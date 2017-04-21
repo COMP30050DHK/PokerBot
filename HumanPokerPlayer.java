@@ -98,12 +98,15 @@ public class HumanPokerPlayer extends PokerPlayer{
 			
 			if (input.equalsIgnoreCase("raise")){
 				bet = 1;
-				setNumberOfChips(-currentHighBet-1);
 				
 				validInput = true;
 				
 				if(numberOfChips-currentHighBet<=0){
 					validInput=false;
+				}
+				
+				if(validInput==true){
+					setNumberOfChips(-currentHighBet-1);
 				}
 				
 				
