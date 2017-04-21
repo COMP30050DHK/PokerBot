@@ -127,7 +127,7 @@ public class HandOfPoker {
 			if(playersIn.get(i).canOpenBetting() || open){
 				
 				//all their remaining chips are invested in this round
-				if(playersIn.get(i).getNumberOfChips()==0){
+				if(playersIn.get(i).getNumberOfChips()<=0){
 					clean++;
 				}
 				
