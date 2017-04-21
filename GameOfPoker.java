@@ -1,6 +1,12 @@
 package poker;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class GameOfPoker {
@@ -27,13 +33,40 @@ public class GameOfPoker {
 	    		System.out.println("Invalid number of bots. How many bots would you like to play against (Integer 1-4)?");
 	    	}
 	    }
+    	
+    	BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader("src/poker/names.txt"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	String line = "";
+		try {
+			line = reader.readLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	List<String> names = new ArrayList<String>();
+    	while (line != null) {
+    	     names.add(line);
+    	     try {
+				line = reader.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	
+    	Random rand = new Random();
 	    	    
 	    //Creating players here	   
 		PokerPlayer human = new HumanPokerPlayer(d, name);
 		players.add(human);
 		
 		for (int i=0;i<botNum;i++){
-			PokerPlayer bot = new AutomatedPokerPlayer(d, botNames[i], Math.random(), Math.random());
+			PokerPlayer bot = new AutomatedPokerPlayer(d, names.remove(rand.nextInt(names.size())), Math.random(), Math.random());
 			players.add(bot);
 		}
 
