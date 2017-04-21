@@ -114,6 +114,7 @@ public class HandOfPoker {
 			
 			if(playersIn.size()==1){
 				cleanRound=true;
+				return;
 			}
 			
 			
