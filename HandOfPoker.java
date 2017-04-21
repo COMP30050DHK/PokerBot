@@ -180,6 +180,7 @@ public class HandOfPoker {
 						playersIn.get(i).amountToCall = 0;
 						System.out.println(playersIn.get(i).getName() + " has folded");
 						playersIn.remove(i);
+						i--;
 					}
 				}
 			}
