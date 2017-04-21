@@ -70,7 +70,7 @@ public class HandOfPoker {
 		}
 	}
 
-	public void printPlayerChips() {
+	private void printPlayerChips() {
 		
 		System.out.println("\n>> CHIP LISTINGS\n");
 		
@@ -80,7 +80,7 @@ public class HandOfPoker {
 	}
 	
 	//dealing all players a new hand
-	public void newHandCycle(){
+	private void newHandCycle(){
 		
 		System.out.println("\n>> DEALING NEW CARDS\n");
 		
@@ -95,7 +95,7 @@ public class HandOfPoker {
 	}
 	
 	//asking all players if they want to discard
-	public void discardCycle(){
+	private void discardCycle(){
 		for (int i = 0; i<playersIn.size(); i++) {
 			playersIn.get(i).discard();
 			if(playersIn.get(i).isHuman()){
@@ -104,8 +104,7 @@ public class HandOfPoker {
 		}
 	}
 
-	public void bettingRound() {
-		
+	private void bettingRound() {
 		
 		//going to cycle through all players for a round of betting
 		for (int i = 0; i<playersIn.size(); i++) {
@@ -114,8 +113,6 @@ public class HandOfPoker {
 				cleanRound=true;
 				return;
 			}
-			
-			System.out.println(clean);
 			
 			//means everyone has called in this round and betting will stop
 			if(clean+1 >= playersIn.size()){
@@ -219,7 +216,7 @@ public class HandOfPoker {
 	
 	}
 
-	public void showCards() {
+	private void showCards() {
 		
 		System.out.println("\nEND OF ROUND\n");
 		
@@ -228,7 +225,7 @@ public class HandOfPoker {
 		}
 	}
 
-	public int decideWinner() {
+	private int decideWinner() {
 		
 		int max = 0;
 		int winner=0;
