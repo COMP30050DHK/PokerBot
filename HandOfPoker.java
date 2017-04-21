@@ -172,6 +172,7 @@ public class HandOfPoker {
 						//they now don't need to call anything
 						playersIn.get(i).amountToCall = 0;
 						System.out.println(playersIn.get(i).getName() + " has raised");
+						clean = 0;
 					}
 					
 					//player has called
@@ -189,6 +190,7 @@ public class HandOfPoker {
 						System.out.println(playersIn.get(i).getName() + " has folded");
 						playersIn.remove(i);
 						i--;
+						clean++;
 					}
 				}
 			}
