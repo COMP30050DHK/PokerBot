@@ -117,8 +117,6 @@ public class HandOfPoker {
 				return;
 			}
 			
-			
-			
 			System.out.println(playersIn.get(i).getName() + " has " + playersIn.get(i).getNumberOfChips() + " chips");
 			
 			//if the betting is already open or if player can open betting
@@ -215,7 +213,7 @@ public class HandOfPoker {
 		}
 		
 		//means everyone has called in this round and betting will stop
-		if(clean+1 >= playersIn.size()){
+		if(clean >= playersIn.size()){
 			cleanRound = true;
 			return;
 		}
