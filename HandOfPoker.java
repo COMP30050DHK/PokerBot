@@ -106,9 +106,6 @@ public class HandOfPoker {
 
 	public void bettingRound() {
 		
-		//When clean is the same value as amount of players currently in, betting will stop
-		clean = 0;
-		
 		//going to cycle through all players for a round of betting
 		for (int i = 0; i<playersIn.size(); i++) {
 			
