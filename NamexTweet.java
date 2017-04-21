@@ -30,10 +30,6 @@ public class NamexTweet {
     	Configuration configuration = builder.build();
     	TwitterFactory factory = new TwitterFactory(configuration);
     	Twitter twitter = factory.getInstance();
-    	//Twitter twitter = new TwitterFactory().getInstance();
-    	//System.out.println("key:" + twitter.getConfiguration().getOAuthConsumerKey());
-    	//System.out.println("secret: " + twitter.getConfiguration().getOAuthConsumerSecret());
-    	 //twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_KEY_SECRET);
     	 
     	 String accessToken = "852105995459448833-Fh2rnK3hjvZSpP9BUJUNsNVCCA9h9fO";
     	 String accessTokenSecret = "5EEg95y3yGuLy2G2muuVlhdCSPBeumtfgq1BHTjy70y5n";
@@ -42,19 +38,18 @@ public class NamexTweet {
     	 twitter.setOAuthAccessToken(oathAccessToken);
     	 
 
-    	 StatusUpdate replyStatus = new StatusUpdate("Thanks for using our hashtag!");
+    	 
     	 Query query = new Query("#dealmeindhk");
 
-    	 query.count(1); //  Query will return only 2 tweet per request.
+    	 query.count(1); //  Query will return only 1 tweet per request.
 
     	 QueryResult queryResultObject = twitter.search(query);
 
     	 List<Status> qrTweets = queryResultObject.getTweets();
     	 long test = qrTweets.get(0).getId();
+    	 StatusUpdate replyStatus = new StatusUpdate("@"+qrTweets.get(0).getUser().getScreenName()+" Thanks for using our hashtag!");
     	 replyStatus.setInReplyToStatusId(test);
     	 twitter.updateStatus(replyStatus);
-
-    	 
     }
  
     public static void main(String[] args) throws Exception {
