@@ -9,29 +9,40 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.conf.Configuration;
+
 public class GameOfPoker {
 	
 	public static ArrayList<PokerPlayer> players = new ArrayList<PokerPlayer>();
+	public static String nameOfUser;
 	public static String name = "";
 	public static int botNum = 0;
 	public static DeckOfCards d;
+	public static long id = 0;
 	private static Scanner scanner;
 	private String[] botNames = {"Tom", "Dick", "Harry", "William"};
+	private static Twitter twit;
+	private static Configuration config;
 	
 	//Constructor sets up the game
-	public GameOfPoker(){
-		
+	public GameOfPoker(String name, int botNum, String userName, long statusID, Twitter twitter, Configuration configuration){
+		nameOfUser = userName;
+		id = statusID;
+		twit = twitter;
+		config = configuration;
 		DeckOfCards d = new DeckOfCards();
-		scanner = new Scanner(System.in);
-		System.out.println("Welcome to the Automated Poker Machine!\nWhat is your name?");
-	    name = scanner.next();
-    	System.out.println("Welcome, "+name+". How many bots would you like to play against (1-4)?");
+		//scanner = new Scanner(System.in);
+		//System.out.println("Welcome to the Automated Poker Machine!\nWhat is your name?");
+	    //name = scanner.next();
+    	//System.out.println("Welcome, "+name+". How many bots would you like to play against (1-4)?");
 	    
     	while(botNum<1||botNum>4){
 	    	botNum = scanner.nextInt();
-	    	if(botNum<1||botNum>4){
+	    //	if(botNum<1||botNum>4){
 	    		System.out.println("Invalid number of bots. How many bots would you like to play against (Integer 1-4)?");
-	    	}
+	    //	}
 	    }
     	
     	BufferedReader reader = null;
@@ -60,7 +71,7 @@ public class GameOfPoker {
     	}
     	
     	Random rand = new Random();
-	    	    
+	    	    name = "You";
 	    //Creating players here	   
 		PokerPlayer human = new HumanPokerPlayer(d, name);
 		players.add(human);
@@ -73,13 +84,13 @@ public class GameOfPoker {
 	}
 	
 	//plays through a game of poker
-	public void playGame(){
+	public void playGame() throws TwitterException, InterruptedException{
 		boolean playOn = true;
 		int result = 0;
 		
 		while(playOn){
 
-			HandOfPoker pokerHand = new HandOfPoker(d, players);
+			HandOfPoker pokerHand = new HandOfPoker(d, players, twit, config, nameOfUser, id);
 			//executes 1 hand of poker
 			pokerHand.executeHandOfPoker();
 			
@@ -163,11 +174,11 @@ public class GameOfPoker {
 	}
 	
 	    
-	public static void main(String[] args){
+//	public static void main(String[] args){
 		
-		GameOfPoker game = new GameOfPoker();
-		game.playGame();
+		//GameOfPoker game = new GameOfPoker();
+	//	game.playGame();
 	
-	}
+//	}
 	
 }

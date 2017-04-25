@@ -21,33 +21,13 @@ public class HumanPokerPlayer extends PokerPlayer{
 	 *  more than 3 cards only the first 3 will be discarded.
 	 * 
 	 */
-	public int discard(){
-		Scanner scanner = new Scanner(System.in);
+	public boolean discard(String input){
+		
 		boolean validInput = false;
-		
-		System.out.print(">> Would you like to swap any cards? ('n' or 'y'): ");
-		String input = scanner.next();
-		
-		while(!validInput){
-			
-			if (input.equalsIgnoreCase("n")){
-				validInput=true;
-				return 0;
-			}
-			else if (input.equalsIgnoreCase("y")){
-				validInput=true;
-			}
-			else{
-				System.out.print(">> INVALID INPUT ('y' or 'n'): ");
-				input = scanner.next();
-			}
-			
+		if (input.equalsIgnoreCase("n")){
+			validInput=true;
+			return validInput;
 		}
-		
-		
-		System.out.print(">> Which card(s) would you like to swap from 0-4 (e.g. 0,3): ");
-
-		input = scanner.next();
 		char nextChar;
 		int cardsDiscarded=0;
 		for (int i=0;i<input.length();i++){
@@ -57,12 +37,13 @@ public class HumanPokerPlayer extends PokerPlayer{
 				PlayingCard card = deck.deal();
 				hand.discardAndReplace(cardPosition, card);
 				cardsDiscarded++;
+				validInput = true;
 			}
 			if (cardsDiscarded==3){
 				break;
 			}
 		}
-		return cardsDiscarded;
+		return validInput;
 	}
 	
 	
@@ -70,74 +51,39 @@ public class HumanPokerPlayer extends PokerPlayer{
 	 *  If currentHighBet is 0, the betting has not been opened yet, and
 	 *  players can only raise or fold.
 	 */
-	public int getBet(int currentHighBet, boolean open){
+	public int getBet(String input, int currentHighBet, boolean open){
 		int bet = 0;
 		boolean validInput = false;
-		
-		System.out.println("\n" + this.hand.toString() + "\n");
-		
-		while (!validInput){
-			
-			System.out.println("You have: " + numberOfChips + " chips");
-			
+		if (input.equalsIgnoreCase("raise")){
+			bet = 1;		
+			validInput = true;
+				
 			if(numberOfChips-currentHighBet<=0){
-				System.out.println(">> Would you like to see (all in) or fold: ");
+				validInput=false;
 			}
-			
-			else{
-				if (!open){
-					System.out.print(">> Would you like to raise or fold: ");
-				} else {
-					System.out.print(">> Would you like to raise, see or fold: ");
-				}
+				
+			if(validInput==true){
+				setNumberOfChips(-currentHighBet-1);
 			}
-			
-			Scanner scanner = new Scanner(System.in);
-			String input = scanner.next();
-
-			
-			if (input.equalsIgnoreCase("raise")){
-				bet = 1;
-				
-				validInput = true;
-				
-				if(numberOfChips-currentHighBet<=0){
-					validInput=false;
-				}
-				
-				if(validInput==true){
-					setNumberOfChips(-currentHighBet-1);
-				}
 				
 				
-				amountToCall = 0;
+			amountToCall = 0;
 		
-			}
-			else if (input.equalsIgnoreCase("see") && open){
-				bet = 0;
-				setNumberOfChips(-currentHighBet);
-				amountToCall = 0;
-				validInput = true;
-			}
-			else if (input.equalsIgnoreCase("fold")){
-				bet = -1;
-				validInput = true;
-			}
-			if (!validInput){
-				System.out.println(">> Invalid input!");
-			}
+		}else if (input.equalsIgnoreCase("see") && open){
+			bet = 0;
+			setNumberOfChips(-currentHighBet);
+			amountToCall = 0;
+			validInput = true;
+		}else if (input.equalsIgnoreCase("fold")){
+			bet = -1;
+			validInput = true;
+		}
+		
+		if (!validInput){
+				bet = -2;
 		}
 
 		return bet;
 	}
-	
-	public static void main(String[] args){
-		
-		DeckOfCards deck = new DeckOfCards();
-		HumanPokerPlayer player = new HumanPokerPlayer(deck, "Tom");
-		System.out.println(player.toString());
-		player.discard();
-		System.out.println(player.toString());
-		System.out.println("getBet result: " + player.getBet(3,true));
-	}
+
 }

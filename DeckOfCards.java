@@ -1,10 +1,11 @@
+package poker;
 /* Darragh O'Keeffe
  * 14702321
  * COMP 30050 Assignment 2
  * 07/02/2017
  */
 
-package poker;
+
 
 import java.util.Random;
 import java.util.Vector;
