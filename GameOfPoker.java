@@ -75,7 +75,7 @@ public class GameOfPoker {
     	}
     	
     	Random rand = new Random();
-	    	    name = "You";
+	    name = "You";
 	    //Creating players here	   
 		PokerPlayer human = new HumanPokerPlayer(d, name);
 		players.add(human);

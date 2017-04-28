@@ -24,7 +24,9 @@ public class HumanPokerPlayer extends PokerPlayer{
 	public boolean discard(String input){
 		
 		input = input.toLowerCase();
-		
+		input = input.substring(14);
+		int commas = 0;
+		int spaces = 0;
 		boolean validInput = false;
 		if (input.contains("n")){
 			validInput=true;
@@ -41,9 +43,18 @@ public class HumanPokerPlayer extends PokerPlayer{
 				cardsDiscarded++;
 				validInput = true;
 			}
+			if(nextChar==','){ //To facilitate either format 0,1 or 01
+				commas++;
+			}
+			if(nextChar==' '){ //To facilitate either format with spacing
+				spaces++;
+			}
 			if (cardsDiscarded==3){
 				break;
 			}
+		}
+		if(input.length()-commas-spaces>3){
+			return false;
 		}
 		return validInput;
 	}

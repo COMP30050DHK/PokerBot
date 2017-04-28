@@ -28,8 +28,8 @@ import twitter4j.conf.ConfigurationBuilder;
  
 public class NamexTweet {
 	
-    private final static String CONSUMER_KEY = "oEtbUA8stwdjR0XOoulfDc7eW";
-    private final static String CONSUMER_KEY_SECRET = "IjJ2Z8Fy79jn6J0MWzFO9mpQL7dX0AykS0sjVZ7GVbsGnHqpXa";
+    private final static String CONSUMER_KEY = "gUu7VHKkQleLeV39U1d3GAsgd";
+    private final static String CONSUMER_KEY_SECRET = "y7THkPkqvLa1Svp6yfNZjbTGrbbWg1OkXMiL6cuzqAhwTm0lAc";
     public static String name = "";
     public static String userName = "";
 	public static int entry = 0;
@@ -150,6 +150,8 @@ public class NamexTweet {
 			    		GameOfPoker game = new GameOfPoker(name, botNum, userName, status, twitter, configuration);
 			    		try {
 							game.playGame();
+							 twitterStream.cleanUp();
+							 twitterStream.shutdown();
 							return;
 						} catch (TwitterException e) {
 							// TODO Auto-generated catch block
@@ -198,6 +200,7 @@ public class NamexTweet {
 	    filterQuery.track("@DHK_pokerBot");
 	    
 	    twitterStream.filter(filterQuery);
+	 
     
     }
     

@@ -236,7 +236,7 @@ public class HandOfPoker {
 							tweet+="\nraise or fold?";
 							//System.out.print("Would you like to raise or fold?");
 						} else {
-							tweet+="\nsee(" + playersIn.get(i).amountToCall + " chips), raise or fold?";
+							tweet+="\nSee(" + playersIn.get(i).amountToCall + " chip(s)), raise or fold?";
 							//System.out.print("Would you like to raise, see or fold: ");
 						}
 						
@@ -247,13 +247,18 @@ public class HandOfPoker {
 							lastUserReplyTweet = findReply(botLastTweetId);
 							state = ((HumanPokerPlayer) playersIn.get(i)).getBet(lastUserReplyTweet.getText(), playersIn.get(i).amountToCall, open);
 							if (state==-2){
+								tweet+="\n\nInvalid input!";
 								System.out.println("Invalid Input! ");
 								System.out.println("You have: " + playersIn.get(i).numberOfChips + " chips");
 								if (!open){
+									tweet+=" enter 'raise' or 'fold': ";
 									System.out.print(">> Would you like to raise or fold: ");
 								} else {
+									tweet+=" enter 'raise', 'see' or 'fold': ";
 									System.out.print(">> Would you like to raise, see or fold: ");
 								}
+								sendReply(lastUserReplyTweet, tweet);
+							    lastUserReplyTweet = findReply(botLastTweetId);
 							} else {
 								validInput = true;
 							}
@@ -367,7 +372,7 @@ public class HandOfPoker {
 			
 		}
 		
-		message = "...\n" + message;	
+		message = "..." + message;	
 		
 		
 		String newTweet = ("@" + userName + message);
