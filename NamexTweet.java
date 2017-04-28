@@ -28,8 +28,8 @@ import twitter4j.conf.ConfigurationBuilder;
  
 public class NamexTweet {
 	
-    private final static String CONSUMER_KEY = "KUvLJGQs2ZfeaDWCWEAKaWVII";
-    private final static String CONSUMER_KEY_SECRET = "WGgY8kCPyVf5FTZNZyZrDovUzcA24o9PYDKoV60tNZKOWqLJKj";
+    private final static String CONSUMER_KEY = "oEtbUA8stwdjR0XOoulfDc7eW";
+    private final static String CONSUMER_KEY_SECRET = "IjJ2Z8Fy79jn6J0MWzFO9mpQL7dX0AykS0sjVZ7GVbsGnHqpXa";
     public static String name = "";
     public static String userName = "";
 	public static int entry = 0;
@@ -132,8 +132,8 @@ public class NamexTweet {
 		    	  String botNumString = status.getText();
 		    	  userName = status.getUser().getScreenName();
   		       		botNumString = botNumString.substring(14);
-  		       		botNum = Integer.parseInt(botNumString);
-			    	if(botNum<1||botNum>4){
+  		       		char botNumChar = botNumString.charAt(0);
+  		       		if(botNumChar<'1'||botNumChar>'4'||botNumString.length()>1){
 			    		 StatusUpdate replyStatus = new StatusUpdate("@"+userName+" Invalid number of bots! Select a number between 1 and 4!");
 	     	       		 replyStatus.setInReplyToStatusId(status.getId());
 	     	     	    try {
@@ -145,6 +145,7 @@ public class NamexTweet {
 	    				}     			    	}
 			    	else{
 			    		// 	System.out.println(botNum);
+			    		botNum = Character.getNumericValue(botNumChar); 
 			    	twitterStream.clearListeners();
 			    		GameOfPoker game = new GameOfPoker(name, botNum, userName, status, twitter, configuration);
 			    		try {
