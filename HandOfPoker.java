@@ -86,9 +86,9 @@ public class HandOfPoker {
 			
 			winner = playersIn.get(decideWinner());
 			winner.setNumberOfChips(pot);
-			System.out.println("\n" + winner.name + " won " + pot + " chips");
+			System.out.println("\n" + winner.name + " won " + pot + " chips ");
 			
-			tweet+= "\n" + winner.name + " won " + pot + " chips";
+			tweet+= "\n" + winner.name + " won " + pot + " chips "+"\uD83D\uDCB0";
 			
 			tweet+= "\nPlay another round? (Y or N)";
 			
@@ -373,7 +373,7 @@ public class HandOfPoker {
 			
 		}
 		
-		message = "..." + message;	
+		message = "...\n" + message;	
 		
 		
 		String newTweet = ("@" + userName + message);

@@ -7,3 +7,6 @@ A bot was missed in a round of betting DONE
 Bot raises, its chips remaining stays the same DONE
 Bot raises then folds, does not lose any chips at the end of a round DONE
 Betting should end once all players have the same stake or fold DONE
+
+For some reason wit 1 bot it replies ...null at the start of tweet telling you your hand, think its 
+something to do with reply to tweet method

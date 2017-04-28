@@ -28,11 +28,11 @@ import twitter4j.conf.ConfigurationBuilder;
  
 public class NamexTweet {
 	
-    private final static String CONSUMER_KEY = "gUu7VHKkQleLeV39U1d3GAsgd";
-    private final static String CONSUMER_KEY_SECRET = "y7THkPkqvLa1Svp6yfNZjbTGrbbWg1OkXMiL6cuzqAhwTm0lAc";
+    private final static String CONSUMER_KEY = "spHgoQDayugzOYxvUgPu70qYt";
+    private final static String CONSUMER_KEY_SECRET = "l1rARcZG8SBsc9UncLzfO8QIFJFDVyptIqEq1ch9souAYXseIG";
     public static String name = "";
     public static String userName = "";
-	public static int entry = 0;
+	public static int entries = 0;
 	public static int botNum = 0;
 	
 	
@@ -60,9 +60,9 @@ public class NamexTweet {
 
      	        @Override
      	        public void onStatus(Status status) {
-     	                
+     	        	
      	        	name = status.getUser().getName();
-     	       		  StatusUpdate replyStatus = new StatusUpdate("@"+status.getUser().getScreenName()+" Welcome to the Automated Poker Machine! How many bots would you like to play against (1-4)?");
+     	       		  StatusUpdate replyStatus = new StatusUpdate("@"+status.getUser().getScreenName()+" Welcome to the Automated Poker Machine! "+ "\uD83D\uDE4C" +"\nHow many bots would you like to play against (1-4)?");
      	       		 replyStatus.setInReplyToStatusId(status.getId());
      	     	    try {
     					twitter.updateStatus(replyStatus);	
@@ -72,11 +72,7 @@ public class NamexTweet {
     					e.printStackTrace();
     				}
      	     	    
-     	     	    
-     	     	    
      	     	    first(twitter,configuration);
-     	     	    
-     	        
      	        }
      	       
      	        
@@ -145,14 +141,13 @@ public class NamexTweet {
 	    				}     			    	}
 			    	else{
 			    		// 	System.out.println(botNum);
-			    		botNum = Character.getNumericValue(botNumChar); 
+			    		botNum = Integer.parseInt(botNumString); 
 			    	twitterStream.clearListeners();
 			    		GameOfPoker game = new GameOfPoker(name, botNum, userName, status, twitter, configuration);
 			    		try {
 							game.playGame();
-							 twitterStream.cleanUp();
-							 twitterStream.shutdown();
 							return;
+							
 						} catch (TwitterException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
