@@ -1,5 +1,4 @@
 package poker;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,8 +28,8 @@ import twitter4j.conf.ConfigurationBuilder;
  
 public class NamexTweet {
 	
-    private final static String CONSUMER_KEY = "hhaZQsjwvSO0amezowlTr1aAg";
-    private final static String CONSUMER_KEY_SECRET = "0KBI4QCFnAr41voWoRYtvvgeuso9DTdV79pZ78g9FjFYR7DFIX";
+    private final static String CONSUMER_KEY = "KUvLJGQs2ZfeaDWCWEAKaWVII";
+    private final static String CONSUMER_KEY_SECRET = "WGgY8kCPyVf5FTZNZyZrDovUzcA24o9PYDKoV60tNZKOWqLJKj";
     public static String name = "";
     public static String userName = "";
 	public static int entry = 0;
@@ -46,6 +45,7 @@ public class NamexTweet {
         	Configuration configuration = builder.build();
         	TwitterFactory factory = new TwitterFactory(configuration);
         	Twitter twitter = factory.getInstance();
+        	
         	
         	
         	 String accessToken = "852105995459448833-Fh2rnK3hjvZSpP9BUJUNsNVCCA9h9fO";
@@ -145,9 +145,11 @@ public class NamexTweet {
 	    				}     			    	}
 			    	else{
 			    		// 	System.out.println(botNum);
-			    		GameOfPoker game = new GameOfPoker(name, botNum, userName, status.getId(), twitter, configuration);
+			    	twitterStream.clearListeners();
+			    		GameOfPoker game = new GameOfPoker(name, botNum, userName, status, twitter, configuration);
 			    		try {
 							game.playGame();
+							return;
 						} catch (TwitterException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -198,13 +200,10 @@ public class NamexTweet {
     
     }
     
-    
-    
-    
-    
     public static void main(String[] args) throws Exception {
     	NamexTweet nameX = new NamexTweet();// run the Twitter client
     	nameX.start();
+    	return;
     }
     	
 }

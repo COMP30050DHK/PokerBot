@@ -1,6 +1,5 @@
 package poker;
 
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,6 +9,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+import twitter4j.ResponseList;
+import twitter4j.Status;
+import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.conf.Configuration;
@@ -21,14 +23,15 @@ public class GameOfPoker {
 	public static String name = "";
 	public static int botNum = 0;
 	public static DeckOfCards d;
-	public static long id = 0;
+	public static Status id;
 	private static Scanner scanner;
-	private String[] botNames = {"Tom", "Dick", "Harry", "William"};
 	private static Twitter twit;
 	private static Configuration config;
+	private static String tweet;
+	private static Status currentStatus;
 	
 	//Constructor sets up the game
-	public GameOfPoker(String name, int botNum, String userName, long statusID, Twitter twitter, Configuration configuration){
+	public GameOfPoker(String name, int botNum, String userName, Status statusID, Twitter twitter, Configuration configuration){
 		nameOfUser = userName;
 		id = statusID;
 		twit = twitter;
@@ -93,7 +96,7 @@ public class GameOfPoker {
 
 			HandOfPoker pokerHand = new HandOfPoker(d, players, twit, config, nameOfUser, id);
 			//executes 1 hand of poker
-			pokerHand.executeHandOfPoker();
+			id = pokerHand.executeHandOfPoker();
 			
 			//important to check in reverse so no player is skipped if one is removed
 			for(int i=players.size()-1; i>=0; i--){
@@ -108,12 +111,39 @@ public class GameOfPoker {
 		}
 		switch(result){
 			case 0:
+				tweet+="\nCongrats, you have won!";
 				System.out.println("Congratulations, you have eliminated all the automated players!");
 			case -1:
 				System.out.println("Bad Luck, you have run out of chips and are removed from the game");
+				tweet+="\nYou have run out of chips and are removed from the game!";
 			default:
 				System.out.println("Thanks for playing!");
+				tweet="\nThanks for Playing!";
 		}
+		
+		while(tweet.length()+nameOfUser.length() > 130){
+			
+			int i = tweet.indexOf("\n");
+
+			tweet = tweet.substring(i+1);
+		
+		}
+		
+		tweet = "...\n" + tweet;	
+		
+		String newTweet = ("@" + nameOfUser + tweet);
+		tweet = "";
+		StatusUpdate replyStatus = new StatusUpdate(newTweet);
+		replyStatus.setInReplyToStatusId(id.getId());
+		 
+	    try {
+			Status currentStatus = twit.updateStatus(replyStatus);	
+			return;
+			
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 	}
 	
 	/* returns 1 if the human player wishes to play another round and can,
@@ -139,23 +169,44 @@ public class GameOfPoker {
 		}
 		
 		System.out.print(">> Would you like to play another round? ('n' or 'y'): ");
-		String input = scanner.next();
+		//String input = scanner.next();
 		boolean validInput = false;
 		while(!validInput){
 			
-			if (input.equalsIgnoreCase("n")){
+			String input = id.getText().toLowerCase();
+			
+			if (input.contains("n")){
 				validInput=true;
 				return -2;
 			}
-			else if (input.equalsIgnoreCase("y")){
+			else if (input.contains("y")){
 				validInput=true;
 				return 1;
 			}
 			else{
 				System.out.print(">> INVALID INPUT ('y' or 'n'): ");
-				input = scanner.next();
+				//input = scanner.next();
+				tweet = ">>INVALID INPUT ('y' or 'n'):";
+				String newTweet = ("@" + nameOfUser + tweet);
+				tweet = "";
+				StatusUpdate replyStatus = new StatusUpdate(newTweet);
+				replyStatus.setInReplyToStatusId(id.getId());
+				 
+			    try {
+					currentStatus = twit.updateStatus(replyStatus);	
+					
+					
+				} catch (TwitterException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			    
+			    id = findReply(currentStatus.getId());
+			    
 			}
-		}
+			
+			}
+		
 		return -1;
 	}
 	    
@@ -163,6 +214,7 @@ public class GameOfPoker {
 	private static void removePlayerCheck(int i){
 		if(players.get(i).isBust()){
 			System.out.println("Player "+players.get(i).name+" has no chips remaining and has been eliminated from the game.");
+			tweet+="\n" + players.get(i).name+" eliminated";
 			players.remove(i);
 			botNum--;
 		}
@@ -173,6 +225,42 @@ public class GameOfPoker {
 		PokerPlayer rotate = players.remove(0);
 		players.add(rotate);
 	}
+	
+public static Status findReply(long currentId) {
+		
+		long searchingFor = currentId;
+        
+        
+        ResponseList<Status> tweets = null;
+		
+        while (true) {
+        	
+    		try {
+    			tweets = twit.getMentionsTimeline();
+    		} catch (TwitterException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    		
+            //get the most recent tweet
+            for(int i = 0; i < tweets.size(); i++) {
+
+                if(tweets.get(i).getInReplyToStatusId()==searchingFor) {
+	                    return tweets.get(i);
+                    }
+                }
+
+            //wait 10 seconds
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException ie) {
+                  //Handle exception
+
+           }
+        }
+    }
+	
+	
 	
 	    
 //	public static void main(String[] args){

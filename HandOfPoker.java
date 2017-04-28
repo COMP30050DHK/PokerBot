@@ -1,13 +1,12 @@
 package poker;
 
-
-import java.awt.List;
 import java.util.ArrayList;
 import java.util.Scanner;
-import twitter4j.Status;
-import twitter4j.StatusDeletionNotice;
+
 import twitter4j.Query;
 import twitter4j.QueryResult;
+import twitter4j.ResponseList;
+import twitter4j.Status;
 import twitter4j.StatusListener;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -29,6 +28,7 @@ public class HandOfPoker {
 	private int clean = 0;
 	private int needToCall = 0;
 	private int cantOpen = 0;
+	private static long botLastTweetId;
 	PokerPlayer winner;
 	DeckOfCards deck;
 	Scanner scanner;
@@ -36,12 +36,14 @@ public class HandOfPoker {
 	private static Twitter twit;
 	private static Configuration config;
 	private static TwitterStream twitterStream;
-	private static String tweet = ("@");
+	private static String tweet;
 	public static String userName = "";
-	private static long tweetId;
+	private static Status tweetId;
+	private static Status currentStatus;
+	public static Status lastUserReplyTweet;
 
 
-	public HandOfPoker(DeckOfCards d, ArrayList<PokerPlayer> players, Twitter twitter, Configuration configuration, String name, long id) {
+	public HandOfPoker(DeckOfCards d, ArrayList<PokerPlayer> players, Twitter twitter, Configuration configuration, String name, Status id) {
 		
 		userName = name;
 		deck = d;
@@ -56,7 +58,7 @@ public class HandOfPoker {
 		
 	}
 	
-	public void executeHandOfPoker(){
+	public Status executeHandOfPoker(){
 
 		newHandCycle();
 		discardCycle();
@@ -73,7 +75,7 @@ public class HandOfPoker {
 		while(cleanRound!=true){
 			bettingRound();
 			if(roundOver){
-				return;
+				return findReply(botLastTweetId);
 			}
 		}
 		
@@ -85,13 +87,19 @@ public class HandOfPoker {
 			winner = playersIn.get(decideWinner());
 			winner.setNumberOfChips(pot);
 			System.out.println("\n" + winner.name + " won " + pot + " chips");
+			
+			tweet+= "\n" + winner.name + " won " + pot + " chips";
+			
+			tweet+= "\nPlay another round? (Y or N)";
+			
+			sendReply(lastUserReplyTweet,tweet);
 			playersIn.clear();
 			playersIn.addAll(pokerPlayers);
 		}
 		
 		printPlayerChips();
 		
-		return;
+		return findReply(botLastTweetId);
 		
 	}
 	
@@ -101,16 +109,8 @@ public class HandOfPoker {
 		}
 	}
 
-	public void printPlayerChips() {
-		
-		System.out.println("\n\n\n\n\n user name" + userName + "\n\n\n\n\n\n");
-		
-		tweet+=userName;
-		
-		System.out.println("\n\n\n\n\n tweet " + tweet + "\n\n\n\n\n\n");
-		
-		tweet+=(" CHIPS\n");
-		
+	public void printPlayerChips() {		
+		tweet+=("\nCHIPS\n");
 		System.out.println("\n>> CHIP LISTINGS\n");
 		
 		for (int i = 0; i<playersIn.size(); i++) {
@@ -146,52 +146,28 @@ public class HandOfPoker {
 				tweet+="Discard? (enter n or 0,1,3): ";
 				System.out.println("Discard cards? (enter n or 0,1,3): ");
 				
+				sendReply(tweetId, tweet);
+				tweet = "";
 				
-				StatusUpdate replyStatus = new StatusUpdate(tweet);
-				 replyStatus.setInReplyToStatusId(tweetId);
-				 
-				 
-				 System.out.println("\n\n\n\n\n" + replyStatus.getPlaceId());
-				 
-				 
-			    try {
-					twit.updateStatus(replyStatus);	
-					
-				} catch (TwitterException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			    
-			    
-			    
-			    ArrayList<Status> tweets = findReplies();
-			    
-			    System.out.println(tweets);
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+			    lastUserReplyTweet = findReply(botLastTweetId); 
+				    
 				
 				boolean validInput = false;
 				while(!validInput){
-					validInput = ((HumanPokerPlayer) playersIn.get(i)).discard(scanner.nextLine());
+					validInput = ((HumanPokerPlayer) playersIn.get(i)).discard(lastUserReplyTweet.getText());
 					if(!validInput){
+						tweet+="\n\nInvalid input, enter n or a sequence of numbers (Ex: 0,1,3): ";
+						sendReply(lastUserReplyTweet, tweet);
+					    lastUserReplyTweet = findReply(botLastTweetId); 
+						
+						
 						System.out.println("Invalid input, enter n or a sequence of numbers (Ex: 0,1,3): ");
 					}
+					else if(validInput){
+						tweet+="\n" + playersIn.get(i).hand.toString();
+					}
+					
+					
 				}
 			} else {
 				((AutomatedPokerPlayer) playersIn.get(i)).discard();
@@ -254,14 +230,22 @@ public class HandOfPoker {
 					
 					if(playersIn.get(i).isHuman()){
 						boolean validInput = false;
+						tweet+="\n"+playersIn.get(i).numberOfChips+" Chips";
 						System.out.println("You have: " + playersIn.get(i).numberOfChips + " chips");
 						if (!open){
-							System.out.print(">> Would you like to raise or fold: ");
+							tweet+="\nraise or fold?";
+							//System.out.print("Would you like to raise or fold?");
 						} else {
-							System.out.print(">> Would you like to raise, see or fold: ");
+							tweet+="\nsee(" + playersIn.get(i).amountToCall + " chips), raise or fold?";
+							//System.out.print("Would you like to raise, see or fold: ");
 						}
+						
+						sendReply(lastUserReplyTweet,tweet);
+						tweet = "";
+						
 						while (!validInput){
-							state = ((HumanPokerPlayer) playersIn.get(i)).getBet(scanner.nextLine(), playersIn.get(i).amountToCall, open);
+							lastUserReplyTweet = findReply(botLastTweetId);
+							state = ((HumanPokerPlayer) playersIn.get(i)).getBet(lastUserReplyTweet.getText(), playersIn.get(i).amountToCall, open);
 							if (state==-2){
 								System.out.println("Invalid Input! ");
 								System.out.println("You have: " + playersIn.get(i).numberOfChips + " chips");
@@ -293,7 +277,8 @@ public class HandOfPoker {
 					
 						//they now don't need to call anything
 						playersIn.get(i).amountToCall = 0;
-						System.out.println(playersIn.get(i).getName() + " has raised");
+						tweet+="\n" + playersIn.get(i).getName() + ": raised";
+						System.out.println(playersIn.get(i).getName() + ": raised");
 						clean = 0;
 					}
 					
@@ -302,13 +287,15 @@ public class HandOfPoker {
 						pot+=needToCall;
 						//now don't need to call anything
 						playersIn.get(i).amountToCall = 0;
-						System.out.println(playersIn.get(i).getName() + " has called");
+						tweet+="\n" + playersIn.get(i).getName() + ": called";
+						System.out.println(playersIn.get(i).getName() + ": called");
 						clean++;
 					}
 					
 					//player has folded
 					else if(state==-1){
 						playersIn.get(i).amountToCall = 0;
+						tweet+="\n" + playersIn.get(i).getName() + ": folded";
 						System.out.println(playersIn.get(i).getName() + " has folded");
 						playersIn.remove(i);
 						i--;
@@ -340,9 +327,11 @@ public class HandOfPoker {
 	public void showCards() {
 		
 		System.out.println("\nEND OF ROUND\n");
+		tweet ="\nRound Over";
 		
 		for (int i = 0; i<playersIn.size(); i++) {
 			System.out.println(playersIn.get(i).name + ": " + playersIn.get(i).hand.toString());
+			tweet+="\n" + playersIn.get(i).name + ": " + playersIn.get(i).hand.toString();
 		}
 	}
 
@@ -362,33 +351,82 @@ public class HandOfPoker {
 			
 	}
 	
-	
-	public static ArrayList<Status> findReplies() {
-        
-		Query query = new Query("@DHK_pokerBot");
-        
-        ArrayList<Status> tweets = new ArrayList<Status>();
-        
-        try {
-            QueryResult result;
-            do {
-                result = twit.search(query);
-                
-                for (Status tweet : result.getTweets()) {
-                    // Replace this logic to check if it's a response to a known tweet
-                    if (tweet.getInReplyToStatusId() > 0) {
-                        tweets.add(tweet);
-                    }
-                }               
-            } while ((query = result.nextQuery()) != null);
+	public static void sendReply(Status replyingTo, String message){
+		
+		while(message.length()+userName.length() > 130){
+			
+			System.out.println(message.length() + "\n\n\n\n\n\n");
+			System.out.println(message);
+			
+			
+			int i = message.indexOf("\n");
 
-        } catch (TwitterException te) {
-            te.printStackTrace();
-            System.out.println("Failed to search tweets: " + te.getMessage());
-        }
+			message = message.substring(i+1);
+			
+
+			
+		}
+		
+		message = "...\n" + message;	
+		
+		
+		String newTweet = ("@" + userName + message);
+		StatusUpdate replyStatus = new StatusUpdate(newTweet);
+		replyStatus.setInReplyToStatusId(replyingTo.getId());
+		 
+	    try {
+			currentStatus = twit.updateStatus(replyStatus);	
+			
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	    botLastTweetId = currentStatus.getId();
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	//will return the tweet replying to Id
+	public static Status findReply(long currentId) {
+		
+		long searchingFor = currentId;
         
-        return tweets;
+        
+        ResponseList<Status> tweets = null;
+		
+        while (true) {
+        	
+    		try {
+    			tweets = twit.getMentionsTimeline();
+    		} catch (TwitterException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    		
+            //get the most recent tweet
+            for(int i = 0; i < tweets.size(); i++) {
+
+                if(tweets.get(i).getInReplyToStatusId()==searchingFor) {
+	                    return tweets.get(i);
+                    }
+                }
+
+            //wait 10 seconds
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException ie) {
+                  //Handle exception
+
+           }
+        }
     }
+	
 	
 	
 	

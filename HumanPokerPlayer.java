@@ -1,6 +1,5 @@
 package poker;
 
-
 import java.util.Scanner;
 
 public class HumanPokerPlayer extends PokerPlayer{
@@ -24,8 +23,10 @@ public class HumanPokerPlayer extends PokerPlayer{
 	 */
 	public boolean discard(String input){
 		
+		input = input.toLowerCase();
+		
 		boolean validInput = false;
-		if (input.equalsIgnoreCase("n")){
+		if (input.contains("n")){
 			validInput=true;
 			return validInput;
 		}
@@ -55,7 +56,8 @@ public class HumanPokerPlayer extends PokerPlayer{
 	public int getBet(String input, int currentHighBet, boolean open){
 		int bet = 0;
 		boolean validInput = false;
-		if (input.equalsIgnoreCase("raise")){
+		input = input.toLowerCase();
+		if (input.contains("raise")){
 			bet = 1;		
 			validInput = true;
 				
@@ -70,12 +72,12 @@ public class HumanPokerPlayer extends PokerPlayer{
 				
 			amountToCall = 0;
 		
-		}else if (input.equalsIgnoreCase("see") && open){
+		}else if (input.contains("see") && open){
 			bet = 0;
 			setNumberOfChips(-currentHighBet);
 			amountToCall = 0;
 			validInput = true;
-		}else if (input.equalsIgnoreCase("fold")){
+		}else if (input.contains("fold")){
 			bet = -1;
 			validInput = true;
 		}
