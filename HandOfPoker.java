@@ -1,8 +1,13 @@
 package poker;
 
+
+import java.awt.List;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import twitter4j.Status;
+import twitter4j.StatusDeletionNotice;
+import twitter4j.Query;
+import twitter4j.QueryResult;
 import twitter4j.StatusListener;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -144,6 +149,11 @@ public class HandOfPoker {
 				
 				StatusUpdate replyStatus = new StatusUpdate(tweet);
 				 replyStatus.setInReplyToStatusId(tweetId);
+				 
+				 
+				 System.out.println("\n\n\n\n\n" + replyStatus.getPlaceId());
+				 
+				 
 			    try {
 					twit.updateStatus(replyStatus);	
 					
@@ -151,7 +161,12 @@ public class HandOfPoker {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+			    
+			    
+			    
+			    ArrayList<Status> tweets = findReplies();
+			    
+			    System.out.println(tweets);
 				
 				
 				
@@ -346,4 +361,35 @@ public class HandOfPoker {
 		return winner;
 			
 	}
+	
+	
+	public static ArrayList<Status> findReplies() {
+        
+		Query query = new Query("@DHK_pokerBot");
+        
+        ArrayList<Status> tweets = new ArrayList<Status>();
+        
+        try {
+            QueryResult result;
+            do {
+                result = twit.search(query);
+                
+                for (Status tweet : result.getTweets()) {
+                    // Replace this logic to check if it's a response to a known tweet
+                    if (tweet.getInReplyToStatusId() > 0) {
+                        tweets.add(tweet);
+                    }
+                }               
+            } while ((query = result.nextQuery()) != null);
+
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            System.out.println("Failed to search tweets: " + te.getMessage());
+        }
+        
+        return tweets;
+    }
+	
+	
+	
 }

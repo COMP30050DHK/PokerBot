@@ -1,4 +1,5 @@
 package poker;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,7 +29,7 @@ import twitter4j.conf.ConfigurationBuilder;
  
 public class NamexTweet {
 	
-    private final static String CONSUMER_KEY = "80mDx6BOw7U994gqxArp3RXQz";
+    private final static String CONSUMER_KEY = "hhaZQsjwvSO0amezowlTr1aAg";
     private final static String CONSUMER_KEY_SECRET = "0KBI4QCFnAr41voWoRYtvvgeuso9DTdV79pZ78g9FjFYR7DFIX";
     public static String name = "";
     public static String userName = "";
