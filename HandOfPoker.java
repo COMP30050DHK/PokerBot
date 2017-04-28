@@ -247,6 +247,7 @@ public class HandOfPoker {
 							lastUserReplyTweet = findReply(botLastTweetId);
 							state = ((HumanPokerPlayer) playersIn.get(i)).getBet(lastUserReplyTweet.getText(), playersIn.get(i).amountToCall, open);
 							if (state==-2){
+								tweet = "";
 								tweet+="\n\nInvalid input!";
 								System.out.println("Invalid Input! ");
 								System.out.println("You have: " + playersIn.get(i).numberOfChips + " chips");
