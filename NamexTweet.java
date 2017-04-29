@@ -146,7 +146,10 @@ public class NamexTweet {
 			    		GameOfPoker game = new GameOfPoker(name, botNum, userName, status, twitter, configuration);
 			    		try {
 							game.playGame();
+							twitterStream.cleanUp();
+							twitterStream.shutdown();
 							return;
+							
 							
 						} catch (TwitterException e) {
 							// TODO Auto-generated catch block

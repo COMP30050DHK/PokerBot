@@ -115,10 +115,10 @@ public class GameOfPoker {
 				System.out.println("Congratulations, you have eliminated all the automated players!");
 			case -1:
 				System.out.println("Bad Luck, you have run out of chips and are removed from the game");
-				tweet+="\nYou have run out of chips and are removed from the game!"+"\uD83D\uDC4B";
+				tweet+="\nYou have run out of chips and are removed from the game!"+"\uD83D\uDE2D";
 			default:
 				System.out.println("Thanks for playing!");
-				tweet="\nThanks for Playing! " + "\uD83C\uDCCF";
+				tweet="\nThanks for Playing! " + "\uD83D\uDC4B";
 		}
 		
 		while(tweet.length()+nameOfUser.length() > 130){

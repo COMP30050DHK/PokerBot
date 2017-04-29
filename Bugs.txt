@@ -10,3 +10,11 @@ Betting should end once all players have the same stake or fold DONE
 
 For some reason wit 1 bot it replies ...null at the start of tweet telling you your hand, think its 
 something to do with reply to tweet method
+
+When more than 1 invalid discard input adds invalid method string to start of tweet DONE
+
+When more than 1 invalid raise/see/fold input adds invalid method string to start of tweet DONE
+
+Goes back to scanning for illegal number of bots after player completes game DONE
+
+Doesnt check if individual card numbers out of range DONE

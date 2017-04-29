@@ -52,6 +52,9 @@ public class HumanPokerPlayer extends PokerPlayer{
 			if (cardsDiscarded==3){
 				break;
 			}
+			if(nextChar<'0'||nextChar>'4'&&nextChar!=' '&&nextChar!=','){
+				return false;
+			}
 		}
 		if(input.length()-commas-spaces>3){
 			return false;

@@ -159,7 +159,7 @@ public class HandOfPoker {
 						tweet+="\n\nInvalid input, enter n or a sequence of numbers (Ex: 0,1,3): ";
 						sendReply(lastUserReplyTweet, tweet);
 					    lastUserReplyTweet = findReply(botLastTweetId); 
-						
+						tweet = "";
 						
 						System.out.println("Invalid input, enter n or a sequence of numbers (Ex: 0,1,3): ");
 					}
@@ -260,6 +260,7 @@ public class HandOfPoker {
 								}
 								sendReply(lastUserReplyTweet, tweet);
 							    lastUserReplyTweet = findReply(botLastTweetId);
+							    tweet = "";
 							} else {
 								validInput = true;
 							}
