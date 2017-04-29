@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -29,6 +31,8 @@ public class GameOfPoker {
 	private static Configuration config;
 	private static String tweet;
 	private static Status currentStatus;
+	private static String nameArray[] ={"Joetta","Ayako","Maye","Nery","Gwenda","Shon","Krysta","Diana","Enda","Rueben","Jenniffer","Marcos","Ryan","Angelica","Azzie","Sharon","Edythe","Hunter","Evonne","Dian","Ula","Lawerence","Danilo","Mittie","Lawana","Perla","Maxine","Jeromy","Melida","Carmelita","Conception","Rheba","Kimberlie","Brendon","Serena","Julissa","India","Yasmin","Randolph","Helen","Shalonda","Mason","Loralee","Renae","Waneta","Kamala","Zenaida","Stevie","Taneka","Zoe"};
+			
 	
 	//Constructor sets up the game
 	public GameOfPoker(String name, int botNum, String userName, Status statusID, Twitter twitter, Configuration configuration){
@@ -49,29 +53,28 @@ public class GameOfPoker {
 	    //	}
 	    }
     	
-    	BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader("src/poker/names.txt"));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    /*	BufferedReader reader = null;
+		InputStream is = GameOfPoker.class.getResourceAsStream("src/poker/names.txt");
+		// reader = new BufferedReader();
+		reader = new BufferedReader(new InputStreamReader(is));
+		// BufferedReader reader = new BufferedReader(new FileReader(new InputStreamReader(is)));
     	String line = "";
 		try {
 			line = reader.readLine();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
     	List<String> names = new ArrayList<String>();
-    	while (line != null) {
-    	     names.add(line);
-    	     try {
+    	for(int i=0; i<nameArray.length; i++){
+    	//while (line != null) {
+    	     names.add(nameArray[i]);
+    	    /* try {
 				line = reader.readLine();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
     	}
     	
     	Random rand = new Random();

@@ -28,8 +28,8 @@ import twitter4j.conf.ConfigurationBuilder;
  
 public class NamexTweet {
 	
-    private final static String CONSUMER_KEY = "spHgoQDayugzOYxvUgPu70qYt";
-    private final static String CONSUMER_KEY_SECRET = "l1rARcZG8SBsc9UncLzfO8QIFJFDVyptIqEq1ch9souAYXseIG";
+    private final static String CONSUMER_KEY = "yE2qo7zDnTOtinw5QP69bCiCB";
+    private final static String CONSUMER_KEY_SECRET = "ljhH3eGyefSVIBWTUKVmXvGsrX65bYijoSq8FGrs0DW7asYoeX";
     public static String name = "";
     public static String userName = "";
 	public static int entries = 0;
