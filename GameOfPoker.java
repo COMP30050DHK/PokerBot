@@ -87,7 +87,6 @@ public class GameOfPoker {
 			PokerPlayer bot = new AutomatedPokerPlayer(d, names.remove(rand.nextInt(names.size())), Math.random(), Math.random());
 			players.add(bot);
 		}
-
 	}
 	
 	//plays through a game of poker

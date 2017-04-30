@@ -28,10 +28,12 @@ public class HumanPokerPlayer extends PokerPlayer{
 		int commas = 0;
 		int spaces = 0;
 		boolean validInput = false;
+		
 		if (input.contains("n")){
 			validInput=true;
 			return validInput;
 		}
+		
 		char nextChar;
 		int cardsDiscarded=0;
 		for (int i=0;i<input.length();i++){
@@ -43,22 +45,16 @@ public class HumanPokerPlayer extends PokerPlayer{
 				cardsDiscarded++;
 				validInput = true;
 			}
-			if(nextChar==','){ //To facilitate either format 0,1 or 01
-				commas++;
-			}
-			if(nextChar==' '){ //To facilitate either format with spacing
-				spaces++;
-			}
 			if (cardsDiscarded==3){
 				break;
 			}
-			if(nextChar<'0'||nextChar>'4'&&nextChar!=' '&&nextChar!=','){
-				return false;
+			if(nextChar<'0'||nextChar>'4'){
+				if(nextChar!=' '&&nextChar!=','){
+					return false;
+				}
 			}
 		}
-		if(input.length()-commas-spaces>3){
-			return false;
-		}
+
 		return validInput;
 	}
 	
