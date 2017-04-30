@@ -28,12 +28,13 @@ import twitter4j.conf.ConfigurationBuilder;
  
 public class NamexTweet {
 	
-    private final static String CONSUMER_KEY = "YNoJ5xYW4qJjDbJXZ5XMfAaqh";
-    private final static String CONSUMER_KEY_SECRET = "YBriKjs8pao57M4M8uJOAznxMhhpNfKzD56WxBRSsrgeeWcdqV";
+    private final static String CONSUMER_KEY = "BG5lA8JdwKbOrjgJq35auy8Ff";
+    private final static String CONSUMER_KEY_SECRET = "jiQUux3FvYtnQRsIDE3aR78UnR1dtxIOe1FQkWnX1kLxBA3nx7";
     public static String name = "";
     public static String userName = "";
 	public static int entries = 0;
 	public static int botNum = 0;
+	private final int GAME_NUMBER_LIMIT = 2;
 	
 	
 	
@@ -145,11 +146,17 @@ public class NamexTweet {
 			    	twitterStream.clearListeners();
 			    		GameOfPoker game = new GameOfPoker(name, botNum, userName, status, twitter, configuration);
 			    		try {
-							game.playGame();
-							twitterStream.cleanUp();
-							twitterStream.shutdown();
-							return;
+			    		//	if(entries<GAME_NUMBER_LIMIT){
+			    		//		entries++;
+			    				game.playGame();
+			    				
+			    		//	}
+			    		//	else{
+			    				twitterStream.cleanUp();
+			    				twitterStream.shutdown();
+			    			//}
 							
+			    				return;
 							
 						} catch (TwitterException e) {
 							// TODO Auto-generated catch block

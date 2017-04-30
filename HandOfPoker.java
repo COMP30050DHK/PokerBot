@@ -86,7 +86,7 @@ public class HandOfPoker {
 			for(int i = 0; i<playersIn.size(); i++){
 				if(playersIn.get(i).isHuman()){
 					if(playersIn.get(i).isBust()){
-						tweet+= "\n You have lost, Unlucky!";
+						tweet+= "\nYou have lost, Unlucky!";
 						sendReply(lastUserReplyTweet,tweet);
 						return null;
 					}

@@ -25,8 +25,6 @@ public class HumanPokerPlayer extends PokerPlayer{
 		
 		input = input.toLowerCase();
 		input = input.substring(14);
-		int commas = 0;
-		int spaces = 0;
 		boolean validInput = false;
 		
 		if (input.contains("n")){

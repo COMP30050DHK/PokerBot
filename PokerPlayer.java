@@ -70,7 +70,7 @@ public class PokerPlayer {
 	
 	//A player is bust and will be removed from the game when they have no chips remaining
 	public boolean isBust(){
-		return (numberOfChips==0);
+		return (numberOfChips<=0);
 	}
 	
 }
