@@ -1,11 +1,20 @@
-Pot not splitting when it should
-Infinite loop when seeing with 0 chips
+Pot not splitting when it should DONE
+
+Infinite loop when seeing with 0 chips DONE
+
 Raising with 0 chips should not be allowed DONE
+
+
 Game should ask player if they want to play another round at the end of each hand  DONE
+
 Game should end when human player has 0 chips DONE
+
 A bot was missed in a round of betting DONE
+
 Bot raises, its chips remaining stays the same DONE
+
 Bot raises then folds, does not lose any chips at the end of a round DONE
+
 Betting should end once all players have the same stake or fold DONE
 
 For some reason wit 1 bot it replies ...null at the start of tweet telling you your hand, think its 

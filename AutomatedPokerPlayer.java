@@ -1,7 +1,6 @@
 package poker;
 
 import java.util.Random;
-import java.util.Scanner;
 
 public class AutomatedPokerPlayer extends PokerPlayer {
 	

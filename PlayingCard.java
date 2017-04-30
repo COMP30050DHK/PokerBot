@@ -1,9 +1,3 @@
-/* Darragh O'Keeffe
- * 14702321
- * COMP 30050 Assignment 1
- * 31/01/2017
- */
-
 package poker;
 
 /* Class to represent a playing card from a standard deck of 52 cards (jokers excluded).

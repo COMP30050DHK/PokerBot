@@ -27,7 +27,6 @@ public class NamexTweet {
     public static String userName = "";
 	public static int entries = 0;
 	public static int botNum = 0;
-	private final int GAME_NUMBER_LIMIT = 2;
 	
 	
 	
