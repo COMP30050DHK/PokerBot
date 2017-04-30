@@ -92,6 +92,7 @@ public class HandOfPoker {
 				}
 				if(amountBust==pokerPlayers.size()-1){
 					tweet+= "\n Congratulations, you've won!";
+					sendReply(lastUserReplyTweet,tweet);
 					return null;
 				}
 			}
