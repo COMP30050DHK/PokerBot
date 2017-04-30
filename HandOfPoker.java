@@ -184,6 +184,10 @@ public class HandOfPoker {
 		//going to cycle through all players for a round of betting
 		for (int i = 0; i<playersIn.size(); i++) {
 			
+			if(open && playersIn.get(i).amountToCall==0){
+				return;
+			}
+			
 			if(playersIn.size()==1){
 				cleanRound=true;
 				return;
