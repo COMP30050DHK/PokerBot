@@ -32,11 +32,9 @@ public class HandOfPoker {
 	PokerPlayer winner;
 	DeckOfCards deck;
 	Scanner scanner;
-	
 	private static Twitter twit;
 	private static Configuration config;
-	private static TwitterStream twitterStream;
-	private static String tweet;
+	private static String tweet="";
 	public static String userName = "";
 	private static Status tweetId;
 	private static Status currentStatus;
@@ -62,10 +60,6 @@ public class HandOfPoker {
 
 		newHandCycle();
 		discardCycle();
-		
-
-
-		
 	
 		//ready to start the betting cycle
 		//betting stops whenever clean round is true
@@ -153,6 +147,7 @@ public class HandOfPoker {
 				    
 				
 				boolean validInput = false;
+				
 				while(!validInput){
 					validInput = ((HumanPokerPlayer) playersIn.get(i)).discard(lastUserReplyTweet.getText());
 					if(!validInput){
@@ -160,7 +155,6 @@ public class HandOfPoker {
 						sendReply(lastUserReplyTweet, tweet);
 					    lastUserReplyTweet = findReply(botLastTweetId); 
 						tweet = "";
-						
 						System.out.println("Invalid input, enter n or a sequence of numbers (Ex: 0,1,3): ");
 					}
 					else if(validInput){
@@ -360,21 +354,16 @@ public class HandOfPoker {
 	
 	public static void sendReply(Status replyingTo, String message){
 		
-		while(message.length()+userName.length() > 130){
-			
-			System.out.println(message.length() + "\n\n\n\n\n\n");
-			System.out.println(message);
-			
-			
-			int i = message.indexOf("\n");
-
-			message = message.substring(i+1);
-			
-
-			
+		if(message.length()+userName.length() > 130){
+			while(message.length()+userName.length() > 130){
+				System.out.println(message.length() + "\n\n\n\n\n\n");
+				System.out.println(message);
+				int i = message.indexOf("\n");
+				message = message.substring(i+1);
+			}
+			message = "...\n" + message;
 		}
 		
-		message = "...\n" + message;	
 		
 		
 		String newTweet = ("@" + userName + message);
@@ -388,9 +377,7 @@ public class HandOfPoker {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	    botLastTweetId = currentStatus.getId();
-		
 	}
 	
 	
