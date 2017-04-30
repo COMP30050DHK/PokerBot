@@ -1,13 +1,7 @@
 package poker;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 import twitter4j.FilterQuery;
-import twitter4j.Query;
-import twitter4j.QueryResult;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
@@ -20,7 +14,6 @@ import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.UserMentionEntity;
 import twitter4j.auth.AccessToken;
-import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 

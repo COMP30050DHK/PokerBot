@@ -1,13 +1,9 @@
 package poker;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
-import twitter4j.Query;
-import twitter4j.QueryResult;
 import twitter4j.ResponseList;
 import twitter4j.Status;
-import twitter4j.StatusListener;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -31,7 +27,6 @@ public class HandOfPoker {
 	private static long botLastTweetId;
 	PokerPlayer winner;
 	DeckOfCards deck;
-	Scanner scanner;
 	private static Twitter twit;
 	private static Configuration config;
 	private static String tweet="";
@@ -47,11 +42,9 @@ public class HandOfPoker {
 		deck = d;
 		pokerPlayers.addAll(players);
 		playersIn.addAll(players);
-		scanner = new Scanner(System.in);
 		twit = twitter;
 		config = configuration;
 		tweetId = id;
-		TwitterStream twitterStream = new TwitterStreamFactory(config).getInstance();
 		printPlayerChips();
 		
 	}
@@ -80,7 +73,6 @@ public class HandOfPoker {
 			
 			winner = playersIn.get(decideWinner());
 			winner.setNumberOfChips(pot);
-			System.out.println("\n" + winner.name + " won " + pot + " chips ");			
 			tweet+= "\n" + winner.name + " won " + pot + " chips "+"\uD83D\uDCB0";
 			
 			for(int i = 0; i<playersIn.size(); i++){
@@ -114,11 +106,9 @@ public class HandOfPoker {
 
 	public void printPlayerChips() {		
 		tweet+=("\nCHIPS\n");
-		System.out.println("\n>> CHIP LISTINGS\n");
 		
 		for (int i = 0; i<playersIn.size(); i++) {
 			tweet+=">" + playersIn.get(i).name + ": " + playersIn.get(i).numberOfChips + " chip(s)\n";
-			System.out.println("> " + playersIn.get(i).name + " has " + playersIn.get(i).numberOfChips + " chip(s) in the bank");
 		}
 	}
 	
@@ -127,7 +117,6 @@ public class HandOfPoker {
 		
 		tweet+= "\nDEALING\n";
 		
-		System.out.println("\n>DEALING\n");
 		
 		for (int i = 0; i < playersIn.size(); i++) {
 			//won't owe anything at start of new round
@@ -135,7 +124,6 @@ public class HandOfPoker {
 			playersIn.get(i).newHand();
 			if(playersIn.get(i).isHuman()){
 				tweet+=playersIn.get(i).hand.toString();
-				System.out.println(playersIn.get(i).hand.toString());
 			}
 		}	
 	}
@@ -145,9 +133,7 @@ public class HandOfPoker {
 		for (int i = 0; i<playersIn.size(); i++) {
 
 			if(playersIn.get(i).isHuman()){
-				System.out.println(playersIn.get(i).hand.toString());
 				tweet+="Discard? (enter n or 0,1,3): ";
-				System.out.println("Discard cards? (enter n or 0,1,3): ");
 				
 				sendReply(tweetId, tweet);
 				tweet = "";
@@ -164,7 +150,6 @@ public class HandOfPoker {
 						sendReply(lastUserReplyTweet, tweet);
 					    lastUserReplyTweet = findReply(botLastTweetId); 
 						tweet = "";
-						System.out.println("Invalid input, enter n or a sequence of numbers (Ex: 0,1,3): ");
 					}
 					else if(validInput){
 						tweet+="\n" + playersIn.get(i).hand.toString();
@@ -183,10 +168,14 @@ public class HandOfPoker {
 		
 		//going to cycle through all players for a round of betting
 		for (int i = 0; i<playersIn.size(); i++) {
-			
-			if(open && playersIn.get(i).amountToCall==0){
-				return;
-			}
+		//	if(open && playersIn.get(i).amountToCall==0){
+				/*
+				 * SHOULD WORK TO FIX NEEDS SOMETHING ELSE
+				 * INSIDE IF STATEMENT
+				 */
+				
+			//	return;
+			//}
 			
 			if(playersIn.size()==1){
 				cleanRound=true;
@@ -199,7 +188,6 @@ public class HandOfPoker {
 				return;
 			}
 			
-			System.out.println(playersIn.get(i).getName() + " has " + playersIn.get(i).getNumberOfChips() + " chips");
 			
 			//if the betting is already open or if player can open betting
 			if(playersIn.get(i).canOpenBetting() || open){
@@ -219,32 +207,19 @@ public class HandOfPoker {
 					if(needToCall>=playersIn.get(i).numberOfChips){
 						//call value will become all of their chips (all in)
 						needToCall = playersIn.get(i).numberOfChips;
-						System.out.println(playersIn.get(i).getName()+" see/call to go all in with = " + needToCall + "chips");
 					}
 					
-					//if they have more chips than call value
-					else{
-						//if betting has been opened
-						if(open){
-							System.out.println(playersIn.get(i).getName()+" call/see amount = " + needToCall + " chip(s)");
-						}
-						if(!open){
-							System.out.println("Betting hasn't been opened yet.");
-						}
-					}
+					
 						
 					//state will become either -1,0,1
 					
 					if(playersIn.get(i).isHuman()){
 						boolean validInput = false;
 						tweet+="\n"+playersIn.get(i).numberOfChips+" Chips";
-						System.out.println("You have: " + playersIn.get(i).numberOfChips + " chips");
 						if (!open){
 							tweet+="\nraise or fold?";
-							//System.out.print("Would you like to raise or fold?");
 						} else {
 							tweet+="\nSee(" + playersIn.get(i).amountToCall + " chip(s)), raise or fold?";
-							//System.out.print("Would you like to raise, see or fold: ");
 						}
 						
 						sendReply(lastUserReplyTweet,tweet);
@@ -256,14 +231,10 @@ public class HandOfPoker {
 							if (state==-2){
 								tweet = "";
 								tweet+="\n\nInvalid input!";
-								System.out.println("Invalid Input! ");
-								System.out.println("You have: " + playersIn.get(i).numberOfChips + " chips");
 								if (!open){
 									tweet+=" enter 'raise' or 'fold': ";
-									System.out.print(">> Would you like to raise or fold: ");
 								} else {
 									tweet+=" enter 'raise', 'see' or 'fold': ";
-									System.out.print(">> Would you like to raise, see or fold: ");
 								}
 								sendReply(lastUserReplyTweet, tweet);
 							    lastUserReplyTweet = findReply(botLastTweetId);
@@ -292,7 +263,6 @@ public class HandOfPoker {
 						//they now don't need to call anything
 						playersIn.get(i).amountToCall = 0;
 						tweet+="\n" + playersIn.get(i).getName() + ": raised";
-						System.out.println(playersIn.get(i).getName() + ": raised");
 						clean = 0;
 					}
 					
@@ -302,7 +272,6 @@ public class HandOfPoker {
 						//now don't need to call anything
 						playersIn.get(i).amountToCall = 0;
 						tweet+="\n" + playersIn.get(i).getName() + ": called";
-						System.out.println(playersIn.get(i).getName() + ": called");
 						clean++;
 					}
 					
@@ -310,7 +279,6 @@ public class HandOfPoker {
 					else if(state==-1){
 						playersIn.get(i).amountToCall = 0;
 						tweet+="\n" + playersIn.get(i).getName() + ": folded";
-						System.out.println(playersIn.get(i).getName() + " has folded");
 						playersIn.remove(i);
 						i--;
 						clean++;
@@ -322,13 +290,11 @@ public class HandOfPoker {
 			//if the player can't open betting and it isn't open yet
 			else if(!playersIn.get(i).canOpenBetting() && !open){
 				
-				System.out.println(playersIn.get(i).getName()+" cant open betting!");
 				//counts amount of players who can't open
 				cantOpen++;
 				
 				//if nobody is able to open
 				if(cantOpen>=playersIn.size()){
-					System.out.println("Nobody wants to open, round over!");
 					roundOver = true;
 				}
 				
@@ -340,11 +306,9 @@ public class HandOfPoker {
 
 	public void showCards() {
 		
-		System.out.println("\nEND OF ROUND\n");
 		tweet ="\nRound Over";
 		
 		for (int i = 0; i<playersIn.size(); i++) {
-			System.out.println(playersIn.get(i).name + ": " + playersIn.get(i).hand.toString());
 			tweet+="\n" + playersIn.get(i).name + ": " + playersIn.get(i).hand.toString();
 		}
 	}
@@ -369,8 +333,6 @@ public class HandOfPoker {
 		
 		if(message.length()+userName.length() > 130){
 			while(message.length()+userName.length() > 130){
-				System.out.println(message.length() + "\n\n\n\n\n\n");
-				System.out.println(message);
 				int i = message.indexOf("\n");
 				message = message.substring(i+1);
 			}
@@ -392,19 +354,12 @@ public class HandOfPoker {
 		}
 	    botLastTweetId = currentStatus.getId();
 	}
-	
-	
-	
-	
-	
-	
-	
+
 	//will return the tweet replying to Id
 	public static Status findReply(long currentId) {
 		
 		long searchingFor = currentId;
-        
-        
+
         ResponseList<Status> tweets = null;
 		
         while (true) {
@@ -432,9 +387,5 @@ public class HandOfPoker {
 
            }
         }
-    }
-	
-	
-	
-	
+    }	
 }

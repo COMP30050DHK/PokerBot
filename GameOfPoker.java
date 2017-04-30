@@ -1,15 +1,8 @@
 package poker;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
 import twitter4j.ResponseList;
 import twitter4j.Status;
@@ -26,7 +19,6 @@ public class GameOfPoker {
 	public static int botNum = 0;
 	public static DeckOfCards d;
 	public static Status id;
-	private static Scanner scanner;
 	private static Twitter twit;
 	private static Configuration config;
 	private static String tweet;
@@ -40,41 +32,11 @@ public class GameOfPoker {
 		id = statusID;
 		twit = twitter;
 		config = configuration;
-		DeckOfCards d = new DeckOfCards();
-		//scanner = new Scanner(System.in);
-		//System.out.println("Welcome to the Automated Poker Machine!\nWhat is your name?");
-	    //name = scanner.next();
-    	//System.out.println("Welcome, "+name+". How many bots would you like to play against (1-4)?");
-	    
-    	while(botNum<1||botNum>4){
-	    	botNum = scanner.nextInt();
-	    //	if(botNum<1||botNum>4){
-	    		System.out.println("Invalid number of bots. How many bots would you like to play against (Integer 1-4)?");
-	    //	}
-	    }
-    	
-    /*	BufferedReader reader = null;
-		InputStream is = GameOfPoker.class.getResourceAsStream("src/poker/names.txt");
-		// reader = new BufferedReader();
-		reader = new BufferedReader(new InputStreamReader(is));
-		// BufferedReader reader = new BufferedReader(new FileReader(new InputStreamReader(is)));
-    	String line = "";
-		try {
-			line = reader.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+		DeckOfCards d = new DeckOfCards();	
+  
     	List<String> names = new ArrayList<String>();
     	for(int i=0; i<nameArray.length; i++){
-    	//while (line != null) {
     	     names.add(nameArray[i]);
-    	    /* try {
-				line = reader.readLine();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
     	}
     	
     	Random rand = new Random();
@@ -114,12 +76,9 @@ public class GameOfPoker {
 		switch(result){
 			case 0:
 				tweet+="\nCongrats, you have won! "+"\uD83C\uDF89";
-				System.out.println("Congratulations, you have eliminated all the automated players!");
 			case -1:
-				System.out.println("Bad Luck, you have run out of chips and are removed from the game");
 				tweet+="\nYou have run out of chips and are removed from the game!"+"\uD83D\uDE2D";
 			default:
-				System.out.println("Thanks for playing!");
 				tweet="\nThanks for Playing! " + "\uD83D\uDC4B";
 		}
 		
@@ -170,8 +129,6 @@ public class GameOfPoker {
 			return -1;
 		}
 		
-		System.out.print(">> Would you like to play another round? ('n' or 'y'): ");
-		//String input = scanner.next();
 		boolean validInput = false;
 		while(!validInput){
 			
@@ -186,8 +143,6 @@ public class GameOfPoker {
 				return 1;
 			}
 			else{
-				System.out.print(">> INVALID INPUT ('y' or 'n'): ");
-				//input = scanner.next();
 				tweet = ">>INVALID INPUT ('y' or 'n'):";
 				String newTweet = ("@" + nameOfUser + tweet);
 				tweet = "";
@@ -215,7 +170,6 @@ public class GameOfPoker {
 	//checks if any players have 0 chips left and eliminates them
 	private static void removePlayerCheck(int i){
 		if(players.get(i).isBust()){
-			System.out.println("Player "+players.get(i).name+" has no chips remaining and has been eliminated from the game.");
 			tweet+="\n" + players.get(i).name+" eliminated";
 			players.remove(i);
 			botNum--;
