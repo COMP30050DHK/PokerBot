@@ -80,9 +80,18 @@ public class HandOfPoker {
 			
 			winner = playersIn.get(decideWinner());
 			winner.setNumberOfChips(pot);
-			System.out.println("\n" + winner.name + " won " + pot + " chips ");
-			
+			System.out.println("\n" + winner.name + " won " + pot + " chips ");			
 			tweet+= "\n" + winner.name + " won " + pot + " chips "+"\uD83D\uDCB0";
+			
+			for(int i = 0; i<playersIn.size(); i++){
+				if(playersIn.get(i).isHuman()){
+					if(playersIn.get(i).isBust()){
+						tweet+= "\n You have lost, Unlucky!";
+						sendReply(lastUserReplyTweet,tweet);
+						return null;
+					}
+				}
+			}
 			
 			tweet+= "\nPlay another round? (Y or N)";
 			
