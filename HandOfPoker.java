@@ -75,13 +75,24 @@ public class HandOfPoker {
 			winner.setNumberOfChips(pot);
 			tweet+= "\n" + winner.name + " won " + pot + " chips "+"\uD83D\uDCB0";
 			
+			int amountBust = 0;
+			
 			for(int i = 0; i<playersIn.size(); i++){
 				if(playersIn.get(i).isHuman()){
 					if(playersIn.get(i).isBust()){
-						tweet+= "\nYou have lost, Unlucky!";
+						tweet+= "\n You have lost, Unlucky!";
 						sendReply(lastUserReplyTweet,tweet);
 						return null;
 					}
+				}
+				else{
+					if(playersIn.get(i).isBust()){
+						amountBust++;;
+					}
+				}
+				if(amountBust==pokerPlayers.size()-1){
+					tweet+= "\n Congratulations, you've won!";
+					return null;
 				}
 			}
 			
